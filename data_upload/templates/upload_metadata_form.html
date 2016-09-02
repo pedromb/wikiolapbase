@@ -18,6 +18,7 @@
     <link href="{% static 'bootstrap-table.css'%}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    <link href="{% static 'bootstrap-treeview.min.css'%}" rel="stylesheet">
 
 </head>
 
@@ -43,7 +44,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="text-left">
-                        <form action="/upload_metadata_action/" method="post" id="metadataFormId" class="form-horizontal">
+                        <div id="metadataFormId" class="form-horizontal">
                             <fieldset>
                                 <!-- Form Name -->
                                 <legend>Informações sobre o dataset</legend>
@@ -60,7 +61,7 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label" for="description">Descrição</label>
                                     <div class="col-md-4">
-                                        <textarea name="description" form_id="metadataFormId" rows="6" cols="36"> </textarea>
+                                        <textarea id="descriptionId" name="description" form_id="metadataFormId" rows="6" cols="36"> </textarea>
                                     </div>
                                 </div>
                                 <!-- Text input-->
@@ -73,32 +74,32 @@
                                 </div>
                                 <legend>Tags</legend>
                                 <span class="help-block">Você pode adicionar tags para as colunas de seu dataset! <br>
-                                    Isso ajuda na indexação de seu dataset em nosso banco de dados. </span>                                {% for column in columnNames %}
+                                    Isso ajuda na indexação de seu dataset em nosso banco de dados. </span>                                
+                                    {% for column in columnNames %}
                                 <div class="form-group">
                                     <label class="col-md-4 control-label" for="{{column}}"> {{column}} </label>
-                                    <select class="col-md-4 select2" multiple tabindex="8">
-                                            <option value="Amsterdam">Amsterdam</option>
-                                            <option value="Washington">Washington</option>
-                                            <option value="Sydney">Sydney</option>
-                                            <option value="Beijing">Beijing</option>
-                                            <option value="Cairo">Cairo</option>
-                                        </select>
+                                    <select id="{{column}}" class="col-md-4 select2" multiple tabindex="8">
+                                            <option value="Ano">Ano</option>
+                                            <option value="Bairro">Bairro</option>
+                                            <option value="Cidade">Cidade</option>
+                                            <option value="Estado">Estado</option>
+                                            <option value="Dia">Dia</option>
+                                    </select>
                                 </div>
                                 {% endfor %}
-
+                                <br>
                                 <legend>Hierarquia de Dados</legend>
                                 <span class="help-block"> Caso existam dados hierárquicos em seu dataset você pode definir essa(s) hierarquias aqui. <br>
                                     Se você não sabe o que são hierarquias de dados, <a href="#">clique aqui</a> para saber mais.</span>
 
-                                <span class="btn btn-success add_hierarchy">
+                                <span class="btn btn-success" id="add_hierarchy">
                                         <i class="glyphicon glyphicon-plus"></i>
                                         <span>Adicionar hierarquia</span>
                                 </span>
 
-                                <div id="hierarquias">
-                                    
+                                <div class="hierarquias-classe" id="hierarquias">
                                 </div>
-
+                                <br>
                                 <legend>Preview do seu dataset</legend>
                                 <table id="dataTableId" data-toggle="table" data-editable="true">
                                     <thead>
@@ -125,12 +126,12 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label" for="submitMetadata"></label>
                                     <div class="col-md-4">
-                                        <button type="submit" class="btn btn-primary">Enviar</button>
+                                        <button id="submitMetadataId" class="btn btn-primary">Enviar</button>
                                     </div>
                                 </div>
 
                             </fieldset>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -147,6 +148,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
     <script src="{% static 'custom.js' %}"></script>
+    <script src="{% static 'bootstrap-treeview.min.js' %}"></script>
+
+
 
 </body>
 

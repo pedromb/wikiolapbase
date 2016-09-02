@@ -6,7 +6,9 @@ from data_upload.models import *
 from django.views.decorators.csrf import csrf_exempt
 from django.core.cache import cache
 from django.http import HttpResponseRedirect
+from django.http import HttpResponse
 from data_upload.mongodb_handle import *
+import json
 
 def upload_file_form(request):
     return render(request, 'upload_file_form.html',{})
@@ -37,7 +39,8 @@ def upload_file_action(request):
 
 @csrf_exempt
 def upload_metadata_action(request):
-    form = dict(request.POST)
-    metadata = saveMetadata(form)
+    jsonRequest = request.body.decode('utf-8')
+    print(jsonRequest)
+    metadata = saveMetadata(jsonRequest)
     processDfToCassandra(request.session, metadata)
-    return HttpResponseRedirect('/')
+    return HttpResponse("OK")

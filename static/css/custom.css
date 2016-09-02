@@ -53,5 +53,37 @@
       display: block;
     }
 
+    .hierarquias-classe{
+      display: table;
+      width: 100%;
+    }
+
+    .hierarquia-cell {
+      table-layout: table-cell;
+    }
+
+    .hierarchyWrapper{
+      width: 100%;
+      position:relative;
+    }
+
+    .selectHierarchy{
+      position: relative;
+      margin-left: 10px;
+      margin-top: 10px;
+    }
+
+    .btn-adicionar{
+      position:relative;
+      margin-top: 10px;
+      left: 11vw;
+    }
+
+    .treeElement{
+      position:relative;
+      margin-top: 3vh;
+      width:100%;
+      left: 0.7vw;
+    }
 
   
