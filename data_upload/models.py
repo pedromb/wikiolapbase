@@ -7,10 +7,13 @@ class Tags(EmbeddedDocument):
     column = StringField()
     colTags = ListField() 
 
-class Hierarchies(EmbeddedDocument):
-    hierarchy = StringField()
+class Levels(EmbeddedDocument):
     level = IntField()
     column = StringField()
+
+class Hierarchies(EmbeddedDocument):
+    hierarchy = StringField()
+    levels = ListField(EmbeddedDocumentField(Levels))
 
 class Metadata(Document):
     title = StringField()

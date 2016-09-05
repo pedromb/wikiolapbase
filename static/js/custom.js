@@ -97,24 +97,28 @@ $(function () {
             for (var index in data) {
                 var numberOfNodes = data[index].numberOfNodes;
                 var hierarchyTitle = 'hierarchy_'+index;
+                var newHierarchy = {
+                    'hierarchy': hierarchyTitle,
+                    'levels':[]
+                };
                 var newEntry = {
-                    'hierarchy':hierarchyTitle,
                     "level": 0,
                     "column": data[index].tree[0].text
                 };
-                hierarquias.push(newEntry);
+                newHierarchy.levels.push(newEntry);
+                hierarquias.push(newHierarchy);
                 var next = data[index].tree[0];
                 for (i = 1; i < numberOfNodes + 1; i++) {
                     if (next.nodes !== undefined) {
                         newEntry = {
-                            'hierarchy':hierarchyTitle,
                             "level": i,
                             "column": next.nodes[0].text
                         };
-                        hierarquias.push(newEntry);
+                        newHierarchy.levels.push(newEntry);
                         next = next.nodes[0];
                     }
                 }
+                hierarquias.push(newHierarchy);
             }
         }
         for (var colIndex in columns) {
