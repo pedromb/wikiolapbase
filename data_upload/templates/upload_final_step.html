@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load staticfiles %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, shrink-to-fit=no, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Projeto TCC</title>
+
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link href="{% static 'simple-sidebar.css'%}" rel="stylesheet">
+    <link href="{% static 'dropzone.css'%}" rel="stylesheet">
+    <link href="{% static 'custom.css'%}" rel="stylesheet">
+    <link href="{% static 'bootstrap-table.css'%}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    <link href="{% static 'bootstrap-treeview.min.css'%}" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="#">
+                        Projeto TCC
+                    </a>
+                </li>
+                <li>
+                    <a href="#"> Upload</a>
+                </li>
+                <li>
+                    <a href="#">Contato</a>
+                </li>
+            </ul>
+        </div>
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="text-left">
+                        <div id="metadataFormId" class="form-horizontal">
+                            <fieldset>
+                                <legend>Hierarquia de Dados</legend>
+                                <span class="help-block"> Caso existam dados hierárquicos em seu dataset você pode definir essa(s) hierarquias aqui. <br>
+                                    Se você não sabe o que são hierarquias de dados, <a href="#">clique aqui</a> para saber mais.</span>
+
+                                <span class="btn btn-success" id="add_hierarchy">
+                                        <i class="glyphicon glyphicon-plus"></i>
+                                        <span>Adicionar hierarquia</span>
+                                </span>
+
+                                <div class="hierarquias-classe" id="hierarquias">
+                                </div>
+                                <br>
+                                <legend>Preview do seu dataset</legend>
+                                <table id="dataTableId" data-toggle="table" data-editable="true">
+                                    <thead>
+                                        <tr>
+                                            {% for column in columnNames %}
+                                            <th>
+                                                {{column}}
+                                            </th>
+                                            {% endfor %}
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for entry in data %}
+                                        <tr>
+                                            {% for value in entry %}
+                                            <td>{{value}}</td>
+                                            {% endfor %}
+                                        </tr>
+                                        {% endfor %}
+
+                                    </tbody>
+                                </table>
+                                <!-- Button -->
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="submitMetadata"></label>
+                                    <div class="col-md-4">
+                                        <button id="submitMetadataId" class="btn btn-primary">Enviar Dados</button>
+                                    </div>
+                                </div>
+
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="{% static 'jquery.js' %}"></script>
+    <script src="{% static 'bootstrap.min.js' %}"></script>
+    <script src="{% static 'dropzone.js' %}"></script>
+    <script src="{% static 'jquery_dropzone.js' %}"></script>
+    <script src="{% static 'bootstrap-table.js' %}"></script>
+    <script src="{% static 'bootstrap-table-editable.min.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <script src="{% static 'custom.js' %}"></script>
+    <script src="{% static 'bootstrap-treeview.min.js' %}"></script>
+
+
+
+</body>
+
+</html>

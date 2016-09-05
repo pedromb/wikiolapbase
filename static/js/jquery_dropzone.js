@@ -35,7 +35,7 @@ myDropzone.on("sending", function (file) {
 // Hide the total progress bar when nothing's uploading anymore
 myDropzone.on("queuecomplete", function (progress) {
     document.querySelector("#total-progress").style.opacity = "0";
-    window.location = "/upload_metadata_form";
+    window.location = "/upload_second_step";
 });
 
 // Setup the buttons for all transfers

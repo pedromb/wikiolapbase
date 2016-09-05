@@ -92,21 +92,19 @@ $(function () {
             columns.push(cellText);
         });
         var hierarquias = [];
-        var tags = [];
         if (data.length > 0) {
             for (var index in data) {
                 var numberOfNodes = data[index].numberOfNodes;
-                var hierarchyTitle = 'hierarchy_'+index;
+                var hierarchyTitle = 'hierarchy_' + index;
                 var newHierarchy = {
                     'hierarchy': hierarchyTitle,
-                    'levels':[]
+                    'levels': []
                 };
                 var newEntry = {
                     "level": 0,
                     "column": data[index].tree[0].text
                 };
                 newHierarchy.levels.push(newEntry);
-                hierarquias.push(newHierarchy);
                 var next = data[index].tree[0];
                 for (i = 1; i < numberOfNodes + 1; i++) {
                     if (next.nodes !== undefined) {
@@ -121,6 +119,44 @@ $(function () {
                 hierarquias.push(newHierarchy);
             }
         }
+        var jsonRequest = {
+            "hierarchies": hierarquias,
+        };
+        $.ajax({
+            type: "POST",
+            url: "/upload_metadata_action/",
+            data: JSON.stringify(jsonRequest),
+            success: function (result) {
+                window.location.replace('/');
+            }
+        });
+    });
+
+    $('#goToThirdStepId').click(function (event) {
+        var jsonRequest = {
+            "title": $('#title').val(),
+            "description": $('#descriptionId').val(),
+            "source": $('#source').val(),
+        };
+        $.ajax({
+            type: "POST",
+            url: "/upload_third_step_action/",
+            data: JSON.stringify(jsonRequest),
+            success: function (result) {
+                window.location.replace('/upload_third_step');
+            }
+        });
+    });
+
+    $('#goToFinalStepId').click(function (event) {
+        var columns = [];
+        var tags = [];
+        var dataTable = $('#columnsId label');
+        dataTable.each(function () {
+            var colText = $(this).html().trim();
+            columns.push(colText);
+        });
+        console.log(columns)
         for (var colIndex in columns) {
             var colTags = $('#' + columns[colIndex] + '').select2("val");
             if (colTags !== null) {
@@ -132,19 +168,15 @@ $(function () {
             }
         }
         var jsonRequest = {
-            "title": $('#title').val(),
-            "description": $('#descriptionId').val(),
-            "source": $('#source').val(),
-            "hierarchies": hierarquias,
             "tags": tags,
             "columns": columns
         };
         $.ajax({
             type: "POST",
-            url: "/upload_metadata_action/",
+            url: "/upload_final_step_action/",
             data: JSON.stringify(jsonRequest),
-            success: function(result){
-                window.location.replace('/'); 
+            success: function (result) {
+                window.location.replace('/upload_final_step');
             }
         });
     });
