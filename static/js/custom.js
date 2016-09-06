@@ -7,7 +7,7 @@ $(function () {
         tags: true
     });
 
-    $('#add_hierarchy').click(function () {
+    $('#addHierarchy').click(function () {
         var columns = [];
         var dataTable = $('#dataTableId thead tr th .th-inner');
         dataTable.each(function () {
@@ -16,23 +16,27 @@ $(function () {
         });
         var htmlElement = $('#hierarquias');
         var idDivWrapper = 'hierarchyWrapper' + idInit;
-        htmlElement.append('<div id="' + idDivWrapper + '" class="col-md-3 hierarchyWrapper"> </div>');
+        htmlElement.append('<div id="' + idDivWrapper + '" class="col-md-6 hierarchyWrapper"> </div>');
         var newHtmlElement = $('#' + idDivWrapper + '');
         var idSelect = 'selectHierarchy' + idInit;
         var idButtonAdd = 'selectButton' + idInit;
         var options = '';
-        for (var index in columns) {
-            var option = '<option value="' + columns[index] + '">' + columns[index] + '</option>';
+        for (i = 0; i < columns.length + 1; i++) {
+            var option = '<option value="' + columns[i] + '">' + columns[i] + '</option>';
             options = option + options;
         }
-        newHtmlElement.append('<select class="form-control selectHierarchy" id="' + idSelect + '"' + options + '</select>');
-        newHtmlElement.append('<span class="btn btn-success btn-adicionar" id="' + idButtonAdd + '"> </span > ');
-        var button = $('#' + idButtonAdd + '');
-        button.append('<i class="glyphicon glyphicon-plus"> </i> Adicionar');
         var treeElementWrapper = 'treeWrapper' + idInit;
         var treeElement = 'tree' + idInit;
+        newHtmlElement.append('<div id="hierarquiaNameWrapper'+idInit+'Id" class="hierarquiaNameWrapper form-group"> </div>');
+        $('#hierarquiaNameWrapper' + idInit + 'Id').append('</br><label id="hierarquiaLabel' + idInit + 'Id" class="col-md-6 control-label" for="hierarquia' + idInit + '">Nome da Hierarquia</label>');
+        $('#hierarquiaNameWrapper' + idInit + 'Id').append('<div id="hierarquiaDiv' + idInit + 'Id" class="col-md-6"> </div>');
+        $('#hierarquiaDiv' + idInit + 'Id').append(' <input id="hierarquia' + idInit + 'Id" name="hierarquia' + idInit + 'Name" type="text" placeholder="" class="form-control input-md">')
         newHtmlElement.append('<div class="treeElement" id="' + treeElementWrapper + '"</div>');
         $('#' + treeElementWrapper + '').append('<div" id="' + treeElement + '"</div>');
+        newHtmlElement.append('<select class="form-control selectHierarchy" id="' + idSelect + '"' + options + '</select>');
+        newHtmlElement.append('<span class="btn btn-success btn-adicionar" id="' + idButtonAdd + '"> </span >');
+        var button = $('#' + idButtonAdd + '');
+        button.append('<i class="glyphicon glyphicon-plus"> </i> Adicionar nível');
         options = [];
         columns = [];
         var newEntry = {
@@ -84,18 +88,88 @@ $(function () {
         });
     });
 
+    $('#goBackToFirstStepId').click(function (event) {
+        window.location.replace('/');
+        $('html, body').animate({ scrollTop: 0 }, 'fast');
+
+    });
+
+    $('#goBackToSecondStepId').click(function (event) {
+        var secondStep = $('#secondStepId');
+        var thirdStep = $('#thirdStepId');
+        var secondBreadcrumb = $('#step2Breadcrumb');
+        var thirdBreadcrumb = $('#step3Breadcrumb');
+        secondStep.show();
+        secondBreadcrumb.addClass('active');
+        secondBreadcrumb.removeClass('disabled');
+        thirdStep.hide();
+        thirdBreadcrumb.addClass('disabled');
+        thirdBreadcrumb.removeClass('active');
+        $('html, body').animate({ scrollTop: 0 }, 'fast');
+
+    });
+
+    $('#goBackToThirdStepId').click(function (event) {
+        var finalStep = $('#finalStepId');
+        var thirdStep = $('#thirdStepId');
+        var thirdBreadcrumb = $('#step3Breadcrumb');
+        var finalBreadcrumb = $('#step4Breadcrumb');
+        finalStep.hide();
+        finalBreadcrumb.addClass('disabled');
+        finalBreadcrumb.removeClass('active');
+        thirdStep.show();
+        thirdBreadcrumb.addClass('active');
+        thirdBreadcrumb.removeClass('disabled');
+        $('html, body').animate({ scrollTop: 0 }, 'fast');
+
+    });
+
+    $('#goToThirdStepId').click(function (event) {
+        var secondStep = $('#secondStepId');
+        var thirdStep = $('#thirdStepId');
+        var secondBreadcrumb = $('#step2Breadcrumb');
+        var thirdBreadcrumb = $('#step3Breadcrumb');
+        secondStep.hide();
+        secondBreadcrumb.removeClass('active');
+        secondBreadcrumb.addClass('disabled');
+        thirdStep.show();
+        thirdBreadcrumb.removeClass('disabled');
+        thirdBreadcrumb.addClass('active');
+        $('html, body').animate({ scrollTop: 0 }, 'fast');
+    });
+
+    $('#goToFinalStepId').click(function (event) {
+        var thirdStep = $('#thirdStepId');
+        var finalStep = $('#finalStepId');
+        var thirdBreadcrumb = $('#step3Breadcrumb');
+        var finalBreadcrumb = $('#step4Breadcrumb');
+        thirdStep.hide();
+        thirdBreadcrumb.removeClass('active');
+        thirdBreadcrumb.addClass('disabled');
+        finalStep.show();
+        finalBreadcrumb.removeClass('disabled');
+        finalBreadcrumb.addClass('active');
+        $('html, body').animate({ scrollTop: 0 }, 'fast');
+    });
+
     $('#submitMetadataId').click(function (event) {
         var columns = [];
+        var tags = [];
+        var hierarquias = [];
+
+        //Colunas
         var dataTable = $('#dataTableId thead tr th .th-inner');
         dataTable.each(function () {
             var cellText = $(this).html().trim();
             columns.push(cellText);
         });
-        var hierarquias = [];
+
+        //Hierarquias
         if (data.length > 0) {
             for (var index in data) {
                 var numberOfNodes = data[index].numberOfNodes;
-                var hierarchyTitle = 'hierarchy_' + index;
+                var hierarquiaId = 'hierarquia' + index + 'Id';
+                var hierarchyTitle =  $('#'+hierarquiaId).val();
                 var newHierarchy = {
                     'hierarchy': hierarchyTitle,
                     'levels': []
@@ -119,44 +193,8 @@ $(function () {
                 hierarquias.push(newHierarchy);
             }
         }
-        var jsonRequest = {
-            "hierarchies": hierarquias,
-        };
-        $.ajax({
-            type: "POST",
-            url: "/upload_metadata_action/",
-            data: JSON.stringify(jsonRequest),
-            success: function (result) {
-                window.location.replace('/');
-            }
-        });
-    });
 
-    $('#goToThirdStepId').click(function (event) {
-        var jsonRequest = {
-            "title": $('#title').val(),
-            "description": $('#descriptionId').val(),
-            "source": $('#source').val(),
-        };
-        $.ajax({
-            type: "POST",
-            url: "/upload_third_step_action/",
-            data: JSON.stringify(jsonRequest),
-            success: function (result) {
-                window.location.replace('/upload_third_step');
-            }
-        });
-    });
-
-    $('#goToFinalStepId').click(function (event) {
-        var columns = [];
-        var tags = [];
-        var dataTable = $('#columnsId label');
-        dataTable.each(function () {
-            var colText = $(this).html().trim();
-            columns.push(colText);
-        });
-        console.log(columns)
+        //Tags
         for (var colIndex in columns) {
             var colTags = $('#' + columns[colIndex] + '').select2("val");
             if (colTags !== null) {
@@ -167,16 +205,22 @@ $(function () {
                 tags.push(newTagEntry);
             }
         }
+
         var jsonRequest = {
+            "title": $('#title').val(),
+            "description": $('#descriptionId').val(),
+            "source": $('#source').val(),
             "tags": tags,
-            "columns": columns
+            "columns": columns,
+            "hierarchies": hierarquias,
         };
         $.ajax({
             type: "POST",
-            url: "/upload_final_step_action/",
+            url: "/upload_metadata_action/",
             data: JSON.stringify(jsonRequest),
             success: function (result) {
-                window.location.replace('/upload_final_step');
+                window.location.replace('/');
+                $('html, body').animate({ scrollTop: 0 }, 'fast');
             }
         });
     });

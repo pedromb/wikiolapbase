@@ -63,27 +63,64 @@
     }
 
     .hierarchyWrapper{
-      width: 100%;
+      width: 40% !important;
       position:relative;
+      margin-top: 20px;
+      border: 3px dashed #304FFE; 
+      border-radius: 25px;
+      padding-bottom: 30px;
+      margin-right: 30px;
     }
 
     .selectHierarchy{
       position: relative;
-      margin-left: 10px;
       margin-top: 10px;
+      left:41%;
+      width: 45% !important;
     }
 
     .btn-adicionar{
       position:relative;
+      margin-top: 20px;
+      left:52%;
+      margin-bottom: 50px;
+    }
+
+    .hierarquiaNameWrapper{
+      position:relative;
       margin-top: 10px;
-      left: 11vw;
+      left: -4vw;
+      margin-bottom: 10px;
     }
 
     .treeElement{
       position:relative;
       margin-top: 3vh;
-      width:100%;
-      left: 0.7vw;
+      width:45%;
+      left: 41%;
+    }
+
+    .buttons{
+      display: flex;
+      justify-content: center;
+    }
+
+    .separate-buttons-left {
+      margin-left:10vw !important;
+      position:relative;
+    }
+
+    .separate-buttons-right {
+      margin-right:10vw !important;
+      position:relative;
+    }
+    
+    .breadcrumbs{
+      margin-top: 20px;
+    }
+
+    .upload-step{
+      font-size: 30px;
     }
 
   
