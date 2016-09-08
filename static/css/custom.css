@@ -63,7 +63,7 @@
     }
 
     .hierarchyWrapper{
-      width: 40% !important;
+      width: 45% !important;
       position:relative;
       margin-top: 20px;
       border: 3px dashed #304FFE; 
@@ -76,13 +76,13 @@
       position: relative;
       margin-top: 10px;
       left:41%;
-      width: 45% !important;
+      width: 50% !important;
     }
 
     .btn-adicionar{
       position:relative;
       margin-top: 20px;
-      left:52%;
+      left:62%;
       margin-bottom: 50px;
     }
 
@@ -96,7 +96,7 @@
     .treeElement{
       position:relative;
       margin-top: 3vh;
-      width:45%;
+      width:50%;
       left: 41%;
     }
 
@@ -123,4 +123,11 @@
       font-size: 30px;
     }
 
+    .input-hierarchy-name{
+      width:105% !important;
+    }
+
+    .input-title {
+      width: 105%;
+    }
   

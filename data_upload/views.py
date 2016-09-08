@@ -8,6 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.cache import cache
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
+from data_upload.handles.spark_handle import *
 import json
 
 def upload_file(request):
@@ -37,25 +38,16 @@ def upload_file_action(request):
             handle_uploaded_file(session, request.FILES['file'])
             return HttpResponseRedirect('/upload_metadata')
 
-
-    jsonRequest = request.body.decode('utf-8')
-    session_id = request.session['session_id']
-    print(jsonRequest)
-    metadata_cache_id = 'my_metadata' + session_id
-    oldJson = cache.get(metadata_cache_id)
-    oldDict = json.loads(oldJson)
-    requestDict = json.loads(jsonRequest)
-    mergedDict = {**oldDict, **requestDict}
-    jsonMerged = json.dumps(mergedDict)
-    cache.set(metadata_cache_id,jsonMerged)
-    return HttpResponse("OK")
-
 @csrf_exempt
-def upload_metadata_action(request):
+def upload_metadata_action(request): 
     jsonRequest = request.body.decode('utf-8')
+    jsonDecoded = json.loads(jsonRequest)
     session_id = request.session['session_id']
-    data_cache_id = 'my_data_set_' + session_id
-    metadata = saveMetadata(jsonRequest)
+    jsonDecoded['tableId'] = jsonDecoded['title'].strip().replace(' ','_')+'_'+session_id[:8].replace('-','_')
+    jsonDecoded['tableId'] = jsonDecoded['tableId'].lower()
+    metadataJson = json.dumps(jsonDecoded)
+    metadata = saveMetadata(metadataJson)
     processDfToCassandra(request.session, metadata)
+    data_cache_id = 'my_data_set_' + session_id
     cache.delete(data_cache_id)
     return HttpResponse("OK")

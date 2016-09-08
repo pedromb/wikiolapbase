@@ -16,6 +16,7 @@ class Hierarchies(EmbeddedDocument):
     levels = ListField(EmbeddedDocumentField(Levels))
 
 class Metadata(Document):
+    tableId = StringField()
     title = StringField()
     description = StringField()
     source = StringField()
@@ -24,3 +25,13 @@ class Metadata(Document):
     hierarchies = ListField(EmbeddedDocumentField(Hierarchies))
     created_at = DateTimeField(default=datetime.datetime.now)
     updated_at = DateTimeField(default=datetime.datetime.now)
+
+    meta = {
+        'indexes': [
+            {
+                'fields': ['$title', '$description', '$columns', '$tags'],
+                'default_language': 'portuguese',
+                'weights': {'title':10, 'description':8, 'columns':6, 'tags': 5}
+            }
+        ]
+    }

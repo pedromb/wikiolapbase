@@ -27,10 +27,10 @@ $(function () {
         }
         var treeElementWrapper = 'treeWrapper' + idInit;
         var treeElement = 'tree' + idInit;
-        newHtmlElement.append('<div id="hierarquiaNameWrapper'+idInit+'Id" class="hierarquiaNameWrapper form-group"> </div>');
+        newHtmlElement.append('<div id="hierarquiaNameWrapper' + idInit + 'Id" class="hierarquiaNameWrapper form-group"> </div>');
         $('#hierarquiaNameWrapper' + idInit + 'Id').append('</br><label id="hierarquiaLabel' + idInit + 'Id" class="col-md-6 control-label" for="hierarquia' + idInit + '">Nome da Hierarquia</label>');
         $('#hierarquiaNameWrapper' + idInit + 'Id').append('<div id="hierarquiaDiv' + idInit + 'Id" class="col-md-6"> </div>');
-        $('#hierarquiaDiv' + idInit + 'Id').append(' <input id="hierarquia' + idInit + 'Id" name="hierarquia' + idInit + 'Name" type="text" placeholder="" class="form-control input-md">')
+        $('#hierarquiaDiv' + idInit + 'Id').append(' <input id="hierarquia' + idInit + 'Id" name="hierarquia' + idInit + 'Name" type="text" placeholder="" class="form-control input-hierarchy-name">')
         newHtmlElement.append('<div class="treeElement" id="' + treeElementWrapper + '"</div>');
         $('#' + treeElementWrapper + '').append('<div" id="' + treeElement + '"</div>');
         newHtmlElement.append('<select class="form-control selectHierarchy" id="' + idSelect + '"' + options + '</select>');
@@ -47,6 +47,7 @@ $(function () {
         data.push(newEntry);
         idInit = idInit + 1;
         $('#' + idButtonAdd).click(function () {
+            
             var newValue = $('#' + idSelect + '').val();
             var newNode = {
                 text: newValue,
@@ -58,22 +59,15 @@ $(function () {
                     if (data[index].tree.length === 0) {
                         newNode.tags = [1];
                         data[index].tree.push(newNode);
+                        data[index].tree[0].nodes = [];
                         data[index].numberOfNodes = 1;
                     }
                     else {
-                        var next = data[index].tree[0];
-                        for (x = 0; x < data[index].numberOfNodes; x++) {
-                            if (next.nodes === undefined) {
-                                next.nodes = [];
-                                next.nodes.push(newNode);
-                            }
-                            else {
-                                next = next.nodes[0];
-                            }
-                        }
-                        data[index].numberOfNodes = data[index].numberOfNodes + 1;
-                        data[index].tree[0].tags = [data[index].numberOfNodes];
+                        var root = data[index].tree[0];
+                        root.nodes.push(newNode);
                     }
+                    data[index].numberOfNodes = data[index].numberOfNodes + 1;
+                    data[index].tree[0].tags = [data[index].numberOfNodes];
                     selectData = data[index].tree;
                 }
             }
@@ -169,7 +163,7 @@ $(function () {
             for (var index in data) {
                 var numberOfNodes = data[index].numberOfNodes;
                 var hierarquiaId = 'hierarquia' + index + 'Id';
-                var hierarchyTitle =  $('#'+hierarquiaId).val();
+                var hierarchyTitle = $('#' + hierarquiaId).val();
                 var newHierarchy = {
                     'hierarchy': hierarchyTitle,
                     'levels': []
