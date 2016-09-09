@@ -30,7 +30,7 @@ $(function () {
         newHtmlElement.append('<div id="hierarquiaNameWrapper' + idInit + 'Id" class="hierarquiaNameWrapper form-group"> </div>');
         $('#hierarquiaNameWrapper' + idInit + 'Id').append('</br><label id="hierarquiaLabel' + idInit + 'Id" class="col-md-6 control-label" for="hierarquia' + idInit + '">Nome da Hierarquia</label>');
         $('#hierarquiaNameWrapper' + idInit + 'Id').append('<div id="hierarquiaDiv' + idInit + 'Id" class="col-md-6"> </div>');
-        $('#hierarquiaDiv' + idInit + 'Id').append(' <input id="hierarquia' + idInit + 'Id" name="hierarquia' + idInit + 'Name" type="text" placeholder="" class="form-control input-hierarchy-name">')
+        $('#hierarquiaDiv' + idInit + 'Id').append(' <input id="hierarquia' + idInit + 'Id" name="hierarquia' + idInit + 'Name" type="text" placeholder="" class="form-control input-hierarchy-name">');
         newHtmlElement.append('<div class="treeElement" id="' + treeElementWrapper + '"</div>');
         $('#' + treeElementWrapper + '').append('<div" id="' + treeElement + '"</div>');
         newHtmlElement.append('<select class="form-control selectHierarchy" id="' + idSelect + '"' + options + '</select>');
