@@ -60,7 +60,7 @@ $(function () {
                         newNode.tags = [1];
                         data[index].tree.push(newNode);
                         data[index].tree[0].nodes = [];
-                        data[index].numberOfNodes = 1;
+                        data[index].numberOfNodes = 0;
                     }
                     else {
                         var root = data[index].tree[0];

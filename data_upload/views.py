@@ -46,8 +46,9 @@ def upload_metadata_action(request):
     jsonDecoded['tableId'] = jsonDecoded['title'].strip().replace(' ','_')+'_'+session_id[:8].replace('-','_')
     jsonDecoded['tableId'] = jsonDecoded['tableId'].lower()
     metadataJson = json.dumps(jsonDecoded)
-    metadata = saveMetadata(metadataJson)
+    metadata = getMetadata(metadataJson)
     processDfToCassandra(request.session, metadata)
+    saveMetadata(metadata)
     data_cache_id = 'my_data_set_' + session_id
     cache.delete(data_cache_id)
     return HttpResponse("OK")

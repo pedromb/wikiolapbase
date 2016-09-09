@@ -21,7 +21,7 @@ def closeConnection(session):
 
 def createTableFromDataFrame(table_name, column_names):
     session = getDevConnection()
-    query = 'CREATE TABLE '+table_name+' ( id int, '
+    query = 'CREATE TABLE '+table_name+' ( id text, '
     for i in column_names:
         i = normalize('NFKD', i).encode('ascii', 'ignore').decode('ascii')
         i = i.lower().strip().replace(' ','_')
@@ -36,7 +36,7 @@ def insertIntoTableFromDataFrame(table_name, df):
     column_names = list(df.columns.values)
     my_tuples = [tuple(x) for x in df.values]
     rdd = SparkCassandra.sc.parallelize([{ \
-        column_names[index].lower():value for index,value in enumerate(tuple_entry) \
+        column_names[index].lower():str(value) for index,value in enumerate(tuple_entry) \
         } for tuple_entry in my_tuples])
     rdd.saveToCassandra( \
         "cassandra_dev", \

@@ -1,7 +1,6 @@
 from django.db import models
 from mongoengine import *
 import datetime
-# Create your models here.
 
 class Tags(EmbeddedDocument):
     column = StringField()
@@ -25,13 +24,12 @@ class Metadata(Document):
     hierarchies = ListField(EmbeddedDocumentField(Hierarchies))
     created_at = DateTimeField(default=datetime.datetime.now)
     updated_at = DateTimeField(default=datetime.datetime.now)
-
     meta = {
         'indexes': [
             {
-                'fields': ['$title', '$description', '$columns', '$tags'],
+                'fields': ['$title', '$description', '$columns', '$tags.colTags'],
                 'default_language': 'portuguese',
-                'weights': {'title':10, 'description':8, 'columns':6, 'tags': 5}
+                'weights': {'title':10, 'description':8, 'columns':6, 'colTags': 5}
             }
         ]
     }

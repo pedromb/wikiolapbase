@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_cassandra_engine',
     'data_upload',
-    'django_tables2'
+    'rest_api',
+    'rest_framework'
 ]
 
 MIDDLEWARE_CLASSES = [
