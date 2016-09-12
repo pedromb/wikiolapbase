@@ -19,13 +19,14 @@ def closeConnection(session):
     session.shutdown()
     print("Conexão ao cluster cassandra {} fechada".format(session.cluster.metadata.cluster_name))
 
-def createTableFromDataFrame(table_name, column_names):
+def createTableFromDataFrame(table_name, column_names, df):
     session = getDevConnection()
-    query = 'CREATE TABLE '+table_name+' ( id text, '
+    query = 'CREATE TABLE '+table_name+' ( id bigint, '
     for i in column_names:
+        col = i
         i = normalize('NFKD', i).encode('ascii', 'ignore').decode('ascii')
         i = i.lower().strip().replace(' ','_')
-        query += i+" text, "
+        query += i+" "+getCassandraTypeFromDf(df,col)+", "
     query += " PRIMARY KEY(id));"
     session.execute(query)
     print("Tabela "+table_name+" criada")
@@ -36,7 +37,7 @@ def insertIntoTableFromDataFrame(table_name, df):
     column_names = list(df.columns.values)
     my_tuples = [tuple(x) for x in df.values]
     rdd = SparkCassandra.sc.parallelize([{ \
-        column_names[index].lower():str(value) for index,value in enumerate(tuple_entry) \
+        column_names[index].lower():value for index,value in enumerate(tuple_entry) \
         } for tuple_entry in my_tuples])
     rdd.saveToCassandra( \
         "cassandra_dev", \
@@ -50,5 +51,13 @@ def processDfToCassandra(session, metadata):
     df = cache.get(cache_id)
     column_names = list(df.columns.values)
     table_name = metadata.tableId
-    createTableFromDataFrame(table_name, column_names)
+    createTableFromDataFrame(table_name, column_names,df)
     insertIntoTableFromDataFrame(table_name, df)
+
+def getCassandraTypeFromDf(df, col):
+    switcher = {
+        'float64':'double',
+        'int64':'bigint',
+        'object':'text'
+    }
+    return(switcher.get(str(df[col].dtypes), 'text'))

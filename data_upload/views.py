@@ -43,8 +43,8 @@ def upload_metadata_action(request):
     jsonRequest = request.body.decode('utf-8')
     jsonDecoded = json.loads(jsonRequest)
     session_id = request.session['session_id']
-    jsonDecoded['tableId'] = jsonDecoded['title'].strip().replace(' ','_')+'_'+session_id[:8].replace('-','_')
-    jsonDecoded['tableId'] = jsonDecoded['tableId'].lower()
+    tableId = jsonDecoded['title'].strip().replace(' ','_')+'_'+session_id[:8].replace('-','_')
+    jsonDecoded['tableId'] = normalize('NFKD', tableId).encode('ascii', 'ignore').decode('ascii').lower()
     metadataJson = json.dumps(jsonDecoded)
     metadata = getMetadata(metadataJson)
     processDfToCassandra(request.session, metadata)
