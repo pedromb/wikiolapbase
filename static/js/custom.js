@@ -178,122 +178,150 @@ $(function () {
     });
 
     $('#submitMetadataId').click(function (event) {
-        var columns = [];
-        var tags = [];
-        var hierarquias = [];
+        if (checkValidity()) {
+            var columns = [];
+            var tags = [];
+            var hierarquias = [];
 
-        //Colunas
-        var dataTable = $('#dataTableId thead tr th .th-inner');
-        dataTable.each(function () {
-            var cellText = $(this).html().trim();
-            columns.push(cellText);
-        });
+            //Colunas
+            var dataTable = $('#dataTableId thead tr th .th-inner');
+            dataTable.each(function () {
+                var cellText = $(this).html().trim();
+                columns.push(cellText);
+            });
 
-        //Hierarquias
-        if (data.length > 0) {
-            for (var index in data) {
-                var numberOfNodes = data[index].numberOfNodes;
-                var hierarquiaId = 'hierarquia' + index + 'Id';
-                var hierarchyTitle = $('#' + hierarquiaId).val();
-                var newHierarchy = {
-                    'hierarchy': hierarchyTitle,
-                    'levels': []
-                };
-                if (data[index].tree[0] !== undefined) {
-                    var firstEntry = {
-                        "level": 0,
-                        "column": data[index].tree[0].text
+            //Hierarquias
+            if (data.length > 0) {
+                for (var index in data) {
+                    var numberOfNodes = data[index].numberOfNodes;
+                    var hierarquiaId = 'hierarquia' + index + 'Id';
+                    var hierarchyTitle = $('#' + hierarquiaId).val();
+                    var newHierarchy = {
+                        'hierarchy': hierarchyTitle,
+                        'levels': []
                     };
-                    newHierarchy.levels.push(firstEntry);
-                }
-                var next = data[index].tree[0];
-                for (i = 1; i < numberOfNodes + 1; i++) {
-                    if (next.nodes !== undefined) {
-                        var newEntry = {
-                            "level": i,
-                            "column": next.nodes[0].text
+                    if (data[index].tree[0] !== undefined) {
+                        var firstEntry = {
+                            "level": 0,
+                            "column": data[index].tree[0].text
                         };
-                        newHierarchy.levels.push(newEntry);
-                        next = next.nodes[0];
+                        newHierarchy.levels.push(firstEntry);
                     }
+                    var next = data[index].tree[0];
+                    for (i = 1; i < numberOfNodes + 1; i++) {
+                        if (next.nodes !== undefined) {
+                            var newEntry = {
+                                "level": i,
+                                "column": next.nodes[0].text
+                            };
+                            newHierarchy.levels.push(newEntry);
+                            next = next.nodes[0];
+                        }
+                    }
+                    hierarquias.push(newHierarchy);
                 }
-                hierarquias.push(newHierarchy);
             }
-        }
 
-        //Tags
-        for (var colIndex in columns) {
-            var colTags = $('#' + columns[colIndex] + '').select2("val");
-            if (colTags !== null) {
-                var newTagEntry = {
-                    "column": columns[colIndex],
-                    "colTags": colTags
-                };
-                tags.push(newTagEntry);
+            //Tags
+            for (var colIndex in columns) {
+                var colTags = $('#' + columns[colIndex] + '').select2("val");
+                if (colTags !== null) {
+                    var newTagEntry = {
+                        "column": columns[colIndex],
+                        "colTags": colTags
+                    };
+                    tags.push(newTagEntry);
+                }
             }
-        }
 
-        var jsonRequest = {
-            "title": $('#title').val(),
-            "description": $('#descriptionId').val(),
-            "source": $('#source').val(),
-            "tags": tags,
-            "columns": columns,
-            "hierarchies": hierarquias,
-        };
-        waitingDialog.show('Seu dataset está sendo carregado em nosso repositório!');
-        $.ajax({
-            type: "POST",
-            url: "/upload_metadata_action/",
-            data: JSON.stringify(jsonRequest),
-            success: function (result) {
-                waitingDialog.hide();
-                BootstrapDialog.show({
-                    title: 'Informação',
-                    message: 'Seu dataset foi carregado com sucesso!',
-                    onhide: function (dialogRef) {
-                        window.location.replace('/');
-                        $('html, body').animate({ scrollTop: 0 }, 'fast');
-                    },
-                    closable: true,
-                    closeByBackdrop: false,
-                    closeByKeyboard: false,
-                    buttons: [
-                        {
-                            label: 'Ok',
-                            cssClass: 'btn-default',
-                            action: function (dialogRef) {
-                                dialogRef.close();
+            var jsonRequest = {
+                "title": $('#title').val(),
+                "description": $('#descriptionId').val(),
+                "source": $('#source').val(),
+                "tags": tags,
+                "columns": columns,
+                "hierarchies": hierarquias,
+            };
+            waitingDialog.show('Seu dataset está sendo carregado em nosso repositório!');
+            $.ajax({
+                type: "POST",
+                url: "/upload_metadata_action/",
+                data: JSON.stringify(jsonRequest),
+                success: function (result) {
+                    waitingDialog.hide();
+                    BootstrapDialog.show({
+                        title: 'Informação',
+                        message: 'Seu dataset foi carregado com sucesso!',
+                        onhide: function (dialogRef) {
+                            window.location.replace('/');
+                            $('html, body').animate({ scrollTop: 0 }, 'fast');
+                        },
+                        closable: true,
+                        closeByBackdrop: false,
+                        closeByKeyboard: false,
+                        buttons: [
+                            {
+                                label: 'Ok',
+                                cssClass: 'btn-default',
+                                action: function (dialogRef) {
+                                    dialogRef.close();
+                                }
                             }
-                        }
-                    ]
-                });
+                        ]
+                    });
 
-            },
-            error: function (result) {
-                waitingDialog.hide();
-                BootstrapDialog.show({
-                    title: 'Atenção',
-                    message: 'Ocorreu um erro. Tente novamente mais tarde ou entre em contato com os administradores.',
-                    onhide: function (dialogRef) {
-                        $('html, body').animate({ scrollTop: 0 }, 'fast');
-                    },
-                    closable: true,
-                    closeByBackdrop: false,
-                    closeByKeyboard: false,
-                    buttons: [
-                        {
-                            label: 'Ok',
-                            cssClass: 'btn-default',
-                            action: function (dialogRef) {
-                                dialogRef.close();
+                },
+                error: function (result) {
+                    waitingDialog.hide();
+                    BootstrapDialog.show({
+                        title: 'Atenção',
+                        message: 'Ocorreu um erro. Tente novamente mais tarde ou entre em contato com os administradores.',
+                        onhide: function (dialogRef) {
+                            $('html, body').animate({ scrollTop: 0 }, 'fast');
+                        },
+                        closable: true,
+                        closeByBackdrop: false,
+                        closeByKeyboard: false,
+                        buttons: [
+                            {
+                                label: 'Ok',
+                                cssClass: 'btn-default',
+                                action: function (dialogRef) {
+                                    dialogRef.close();
+                                }
                             }
-                        }
-                    ]
-                });
-            }
+                        ]
+                    });
+                }
 
-        });
+            });
+        }
     });
-    
+
+    function checkValidity() {
+        var titleCheck = $('#title')[0].checkValidity();
+        var descriptionCheck = $('#descriptionId')[0].checkValidity();
+        var sourceCheck = $('#source')[0].checkValidity();
+        if (!titleCheck || !descriptionCheck || !sourceCheck) {
+            BootstrapDialog.show({
+                title: 'Erro',
+                message: 'Os campos título, descrição e fonte são obrigatórios',
+                closable: true,
+                closeByBackdrop: false,
+                closeByKeyboard: false,
+                buttons: [
+                    {
+                        label: 'Ok',
+                        cssClass: 'btn-default',
+                        action: function (dialogRef) {
+                            dialogRef.close();
+                        }
+                    }
+                ]
+            });
+            return false;
+        }
+        return true;
+    }
+
 });
