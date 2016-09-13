@@ -200,16 +200,16 @@ $(function () {
                     'levels': []
                 };
                 if (data[index].tree[0] !== undefined) {
-                    var newEntry = {
+                    var firstEntry = {
                         "level": 0,
                         "column": data[index].tree[0].text
                     };
+                    newHierarchy.levels.push(firstEntry);
                 }
-                newHierarchy.levels.push(newEntry);
                 var next = data[index].tree[0];
                 for (i = 1; i < numberOfNodes + 1; i++) {
                     if (next.nodes !== undefined) {
-                        newEntry = {
+                        var newEntry = {
                             "level": i,
                             "column": next.nodes[0].text
                         };
@@ -295,4 +295,5 @@ $(function () {
 
         });
     });
+    
 });
