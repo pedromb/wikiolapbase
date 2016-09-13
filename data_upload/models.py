@@ -20,8 +20,8 @@ class Metadata(Document):
     description = StringField()
     source = StringField()
     columns = ListField()
-    tags = ListField(EmbeddedDocumentField(Tags))
-    hierarchies = ListField(EmbeddedDocumentField(Hierarchies))
+    tags = ListField(EmbeddedDocumentField(Tags), default=list)
+    hierarchies = ListField(EmbeddedDocumentField(Hierarchies),  default=list)
     created_at = DateTimeField(default=datetime.datetime.now)
     updated_at = DateTimeField(default=datetime.datetime.now)
     meta = {

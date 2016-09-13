@@ -20,6 +20,7 @@ $(function () {
         var newHtmlElement = $('#' + idDivWrapper + '');
         var idSelect = 'selectHierarchy' + idInit;
         var idButtonAdd = 'selectButton' + idInit;
+        var idButtonDelete = 'deleteButton' + idInit;
         var options = '';
         for (i = 0; i < columns.length + 1; i++) {
             var option = '<option value="' + columns[i] + '">' + columns[i] + '</option>';
@@ -37,6 +38,9 @@ $(function () {
         newHtmlElement.append('<span class="btn btn-success btn-adicionar" id="' + idButtonAdd + '"> </span >');
         var button = $('#' + idButtonAdd + '');
         button.append('<i class="glyphicon glyphicon-plus"> </i> Adicionar nível');
+        newHtmlElement.append('</br><span class="btn btn-danger btn-remove" id="' + idButtonDelete + '"> </span >');
+        var buttonDelete = $('#' + idButtonDelete + '');
+        buttonDelete.append('<i class="glyphicon glyphicon-minus"> </i> Remover hierarquia');
         options = [];
         columns = [];
         var newEntry = {
@@ -47,7 +51,7 @@ $(function () {
         data.push(newEntry);
         idInit = idInit + 1;
         $('#' + idButtonAdd).click(function () {
-            
+
             var newValue = $('#' + idSelect + '').val();
             var newNode = {
                 text: newValue,
@@ -78,6 +82,33 @@ $(function () {
                 backColor: "#FFFFFF",
                 showTags: true,
                 emptyIcon: '',
+            });
+        });
+
+        $('#' + idButtonDelete).click(function () {
+            BootstrapDialog.show({
+                title: 'Atenção',
+                message: 'Tem certeza que deseja excluir essa hierarquia?',
+                closable: true,
+                closeByBackdrop: false,
+                closeByKeyboard: false,
+                buttons: [
+                    {
+                        label: 'Não',
+                        cssClass: 'btn-danger',
+                        action: function (dialogRef) {
+                            dialogRef.close();
+                        }
+                    },
+                    {
+                        label: 'Sim',
+                        cssClass: 'btn-primary',
+                        action: function (dialogRef) {
+                            newHtmlElement.remove();
+                            dialogRef.close();
+                        }
+                    },
+                ]
             });
         });
     });
@@ -168,10 +199,12 @@ $(function () {
                     'hierarchy': hierarchyTitle,
                     'levels': []
                 };
-                var newEntry = {
-                    "level": 0,
-                    "column": data[index].tree[0].text
-                };
+                if (data[index].tree[0] !== undefined) {
+                    var newEntry = {
+                        "level": 0,
+                        "column": data[index].tree[0].text
+                    };
+                }
                 newHierarchy.levels.push(newEntry);
                 var next = data[index].tree[0];
                 for (i = 1; i < numberOfNodes + 1; i++) {
@@ -208,16 +241,58 @@ $(function () {
             "columns": columns,
             "hierarchies": hierarquias,
         };
+        waitingDialog.show('Seu dataset está sendo carregado em nosso repositório!');
         $.ajax({
             type: "POST",
             url: "/upload_metadata_action/",
             data: JSON.stringify(jsonRequest),
             success: function (result) {
-                window.location.replace('/');
-                $('html, body').animate({ scrollTop: 0 }, 'fast');
+                waitingDialog.hide();
+                BootstrapDialog.show({
+                    title: 'Informação',
+                    message: 'Seu dataset foi carregado com sucesso!',
+                    onhide: function (dialogRef) {
+                        window.location.replace('/');
+                        $('html, body').animate({ scrollTop: 0 }, 'fast');
+                    },
+                    closable: true,
+                    closeByBackdrop: false,
+                    closeByKeyboard: false,
+                    buttons: [
+                        {
+                            label: 'Ok',
+                            cssClass: 'btn-default',
+                            action: function (dialogRef) {
+                                dialogRef.close();
+                            }
+                        }
+                    ]
+                });
+
+            },
+            error: function (result) {
+                waitingDialog.hide();
+                BootstrapDialog.show({
+                    title: 'Atenção',
+                    message: 'Ocorreu um erro. Tente novamente mais tarde ou entre em contato com os administradores.',
+                    onhide: function (dialogRef) {
+                        $('html, body').animate({ scrollTop: 0 }, 'fast');
+                    },
+                    closable: true,
+                    closeByBackdrop: false,
+                    closeByKeyboard: false,
+                    buttons: [
+                        {
+                            label: 'Ok',
+                            cssClass: 'btn-default',
+                            action: function (dialogRef) {
+                                dialogRef.close();
+                            }
+                        }
+                    ]
+                });
             }
+
         });
     });
-
-
 });

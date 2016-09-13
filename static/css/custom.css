@@ -86,6 +86,12 @@
       margin-bottom: 50px;
     }
 
+    .btn-remove{
+      position:relative;
+      margin-top: 10px;
+      left: 55.5%;
+    }
+
     .hierarquiaNameWrapper{
       position:relative;
       margin-top: 10px;
@@ -131,3 +137,6 @@
       width: 105%;
     }
   
+    .modal-header h3{
+      direction: ltr !important;
+    }
