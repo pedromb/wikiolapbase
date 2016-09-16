@@ -1,3 +1,5 @@
+
+
 $(function () {
 
     var data = [];
@@ -86,6 +88,8 @@ $(function () {
         });
 
         $('#' + idButtonDelete).click(function () {
+            console.log(data);
+            console.log(idSelect);
             BootstrapDialog.show({
                 title: 'Atenção',
                 message: 'Tem certeza que deseja excluir essa hierarquia?',
@@ -105,6 +109,8 @@ $(function () {
                         cssClass: 'btn-primary',
                         action: function (dialogRef) {
                             newHtmlElement.remove();
+                            data = removeValue(data, 'select', idSelect);
+                            console.log(data);
                             dialogRef.close();
                         }
                     },
@@ -113,126 +119,6 @@ $(function () {
         });
     });
 
-    $('#submitMetadataId').click(function (event) {
-        if (checkValidity()) {
-            var columns = [];
-            var tags = [];
-            var hierarquias = [];
-
-            //Colunas
-            var dataTable = $('#dataTableId thead tr th .th-inner');
-            dataTable.each(function () {
-                var cellText = $(this).html().trim();
-                columns.push(cellText);
-            });
-
-            //Hierarquias
-            if (data.length > 0) {
-                for (var index in data) {
-                    var numberOfNodes = data[index].numberOfNodes;
-                    var hierarquiaId = 'hierarquia' + index + 'Id';
-                    var hierarchyTitle = $('#' + hierarquiaId).val();
-                    var newHierarchy = {
-                        'hierarchy': hierarchyTitle,
-                        'levels': []
-                    };
-                    if (data[index].tree[0] !== undefined) {
-                        var firstEntry = {
-                            "level": 0,
-                            "column": data[index].tree[0].text
-                        };
-                        newHierarchy.levels.push(firstEntry);
-                    }
-                    var next = data[index].tree[0];
-                    for (i = 1; i < numberOfNodes + 1; i++) {
-                        if (next.nodes !== undefined) {
-                            var newEntry = {
-                                "level": i,
-                                "column": next.nodes[0].text
-                            };
-                            newHierarchy.levels.push(newEntry);
-                            next = next.nodes[0];
-                        }
-                    }
-                    hierarquias.push(newHierarchy);
-                }
-            }
-
-            //Tags
-            for (var colIndex in columns) {
-                var colTags = $('#' + columns[colIndex] + '').select2("val");
-                if (colTags !== null) {
-                    var newTagEntry = {
-                        "column": columns[colIndex],
-                        "colTags": colTags
-                    };
-                    tags.push(newTagEntry);
-                }
-            }
-
-            var jsonRequest = {
-                "title": $('#title').val(),
-                "description": $('#descriptionId').val(),
-                "source": $('#source').val(),
-                "tags": tags,
-                "columns": columns,
-                "hierarchies": hierarquias,
-            };
-            waitingDialog.show('Seu dataset está sendo carregado em nosso repositório!');
-            $.ajax({
-                type: "POST",
-                url: "/upload_metadata_action/",
-                data: JSON.stringify(jsonRequest),
-                success: function (result) {
-                    waitingDialog.hide();
-                    BootstrapDialog.show({
-                        title: 'Informação',
-                        message: 'Seu dataset foi carregado com sucesso!',
-                        onhide: function (dialogRef) {
-                            window.location.replace('/');
-                            $('html, body').animate({ scrollTop: 0 }, 'fast');
-                        },
-                        closable: true,
-                        closeByBackdrop: false,
-                        closeByKeyboard: false,
-                        buttons: [
-                            {
-                                label: 'Ok',
-                                cssClass: 'btn-default',
-                                action: function (dialogRef) {
-                                    dialogRef.close();
-                                }
-                            }
-                        ]
-                    });
-
-                },
-                error: function (result) {
-                    waitingDialog.hide();
-                    BootstrapDialog.show({
-                        title: 'Atenção',
-                        message: 'Ocorreu um erro. Tente novamente mais tarde ou entre em contato com os administradores.',
-                        onhide: function (dialogRef) {
-                            $('html, body').animate({ scrollTop: 0 }, 'fast');
-                        },
-                        closable: true,
-                        closeByBackdrop: false,
-                        closeByKeyboard: false,
-                        buttons: [
-                            {
-                                label: 'Ok',
-                                cssClass: 'btn-default',
-                                action: function (dialogRef) {
-                                    dialogRef.close();
-                                }
-                            }
-                        ]
-                    });
-                }
-
-            });
-        }
-    });
 
     $('#goForwardId').click(function (event) {
         var activeElement = $('ul#wizardId').find('li.active')[0];
@@ -265,6 +151,9 @@ $(function () {
                 finalBreadcrumb.addClass('active');
                 $('#goForwardId').html('Enviar');
                 $('html, body').animate({ scrollTop: 0 }, 'fast');
+                break;
+            case 'step4Breadcrumb':
+                sendMetadata();
                 break;
 
         }
@@ -315,8 +204,8 @@ $(function () {
         $('[data-original-title]').popover('hide');
     });
 
-    $('#columnsTags a').each(function(element) {
-         $(this).editable();
+    $('#columnsTags a').each(function (element) {
+        $(this).editable();
     }, this);
 
     $('[data-toggle=popover]').popover({
@@ -326,6 +215,160 @@ $(function () {
         $(this).popover('show');
         $('.popover-title').append('<button type="button" class="close">&times;</button>');
     });
+
+    function sendMetadata() {
+        if (true) {
+            var originalColumns = [];
+            var aliasColumns = [];
+            var tags = [];
+            var hierarquias = [];
+
+            //Colunas
+            var dataTable = $('#dataTableId thead tr th .th-inner');
+            dataTable.each(function () {
+                var cellText = $(this).html().trim();
+                originalColumns.push(cellText);
+            });
+            $('#columnsTags a').each(function (element) {
+                var columnAliasName = $(this).html().trim();
+                aliasColumns.push(columnAliasName);
+            }, this);
+
+            //Hierarquias
+            if (data[0] !== undefined) {
+                if (data[0].numberOfNodes > 0) {
+                    for (var index in data) {
+                        if (data[index].numberOfNodes > 0) {
+                            var numberOfNodes = data[index].numberOfNodes;
+                            var hierarquiaId = 'hierarquia' + index + 'Id';
+                            var hierarchyTitle = $('#' + hierarquiaId).val();
+                            var newHierarchy = {
+                                'hierarchy': hierarchyTitle,
+                                'levels': []
+                            };
+                            if (data[index].tree[0] !== undefined) {
+                                var firstEntry = {
+                                    "level": 0,
+                                    "column": data[index].tree[0].text
+                                };
+                                newHierarchy.levels.push(firstEntry);
+                            }
+                            var nodes = data[index].tree[0].nodes;
+                            for (i = 0; i < nodes.length; i++) {
+                                var newEntry = {
+                                    "level": i + 1,
+                                    "column": nodes[i].text
+                                };
+                                newHierarchy.levels.push(newEntry);
+                            }
+                            hierarquias.push(newHierarchy);
+                        }
+                    }
+                }
+            }
+
+            //Tags
+            for (var colIndex in aliasColumns) {
+                var colTags = $('#' + originalColumns[colIndex] + 'Id').select2("val");
+                if (colTags !== null) {
+                    var newTagEntry = {
+                        "column": aliasColumns[colIndex],
+                        "colTags": colTags
+                    };
+                    tags.push(newTagEntry);
+                }
+            }
+
+            var jsonRequest = {
+                "title": $('#title').val(),
+                "description": $('#descriptionId').val(),
+                "source": $('#source').val(),
+                "tags": tags,
+                "originalColumns": originalColumns,
+                "aliasColumns": aliasColumns,
+                "hierarchies": hierarquias,
+            };
+            waitingDialog.show('Seu dataset está sendo carregado em nosso repositório!');
+            $.ajax({
+                type: "POST",
+                url: "/upload_metadata_action/",
+                data: JSON.stringify(jsonRequest),
+                success: function (result) {
+                    console.log(result);
+                    waitingDialog.hide();
+                    BootstrapDialog.show({
+                        title: 'Informação',
+                        message: 'Seu dataset foi carregado com sucesso!',
+                        onhide: function (dialogRef) {
+                            window.location.replace('/');
+                            $('html, body').animate({ scrollTop: 0 }, 'fast');
+                        },
+                        closable: true,
+                        closeByBackdrop: false,
+                        closeByKeyboard: false,
+                        buttons: [
+                            {
+                                label: 'Ok',
+                                cssClass: 'btn-default',
+                                action: function (dialogRef) {
+                                    dialogRef.close();
+                                }
+                            }
+                        ]
+                    });
+
+                },
+                error: function (response) {
+                    waitingDialog.hide();
+                    if (response.status === 500) {
+                        BootstrapDialog.show({
+                            title: 'Atenção',
+                            message: 'Ocorreu um erro. Tente novamente mais tarde ou entre em contato com os administradores.',
+                            onhide: function (dialogRef) {
+                                $('html, body').animate({ scrollTop: 0 }, 'fast');
+                            },
+                            closable: true,
+                            closeByBackdrop: false,
+                            closeByKeyboard: false,
+                            buttons: [
+                                {
+                                    label: 'Ok',
+                                    cssClass: 'btn-default',
+                                    action: function (dialogRef) {
+                                        dialogRef.close();
+                                    }
+                                }
+                            ]
+                        });
+                    }
+                    else if (response.status === 440) {
+                        BootstrapDialog.show({
+                            title: 'Atenção',
+                            message: 'Sua sessão expirou. Por favor envie seu dataset novamente.',
+                            onhide: function (dialogRef) {
+                                window.location.replace('/upload_file');
+                                $('html, body').animate({ scrollTop: 0 }, 'fast');
+                            },
+                            closable: true,
+                            closeByBackdrop: false,
+                            closeByKeyboard: false,
+                            buttons: [
+                                {
+                                    label: 'Ok',
+                                    cssClass: 'btn-default',
+                                    action: function (dialogRef) {
+                                        dialogRef.close();
+
+                                    }
+                                }
+                            ]
+                        });
+                    }
+                }
+
+            });
+        }
+    }
 
 
     function checkValidity() {
@@ -353,5 +396,14 @@ $(function () {
         }
         return true;
     }
+
+    function removeValue(array, name, value) {
+        var newArray = $.map(array, function (v, i) {
+            return v[name] === value ? null : v;
+        });
+        return newArray;
+    };
+
+
 
 });

@@ -19,6 +19,8 @@ def upload_metadata(request):
     session_id = request.session['session_id']
     data_cache_id = 'my_data_set_' + session_id
     df = cache.get(data_cache_id)
+    if df is None:
+         return render(request, 'upload_file.html')
     columnNames = list(df.columns.values)
     previewDf = df.head(10)
     previewDict = previewDf.to_dict()
@@ -48,8 +50,18 @@ def upload_metadata_action(request):
     jsonDecoded['tableId'] = normalize('NFKD', tableId).encode('ascii', 'ignore').decode('ascii').lower()
     metadataJson = json.dumps(jsonDecoded)
     metadata = getMetadata(metadataJson)
-    processDfToCassandra(request.session, metadata)
-    saveMetadata(metadata)
+    test = cache.get(session_id)
+    if test is None:
+        return HttpResponse('Sessão expirada', status=440)
+    try:
+        saveMetadata(metadata)
+    except:
+        return HttpResponse('Ocorreu um erro ao salvar os metadados', status=500)
+    try:
+        processDfToCassandra(request.session, metadata)
+    except:
+        metadataObject = Metadata.objects(tableId=metadata.tableId).delete()
+        return HttpResponse('Ocorreu um erro ao salvar os dados no repositório', status=500)
     data_cache_id = 'my_data_set_' + session_id
     cache.delete(data_cache_id)
-    return HttpResponse("OK")
+    return HttpResponse('Ok',status=200)

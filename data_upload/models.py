@@ -19,7 +19,8 @@ class Metadata(Document):
     title = StringField()
     description = StringField()
     source = StringField()
-    columns = ListField()
+    originalColumns = ListField()
+    aliasColumns = ListField()
     tags = ListField(EmbeddedDocumentField(Tags), default=list)
     hierarchies = ListField(EmbeddedDocumentField(Hierarchies),  default=list)
     created_at = DateTimeField(default=datetime.datetime.now)
@@ -27,9 +28,9 @@ class Metadata(Document):
     meta = {
         'indexes': [
             {
-                'fields': ['$title', '$description', '$columns', '$tags.colTags'],
+                'fields': ['$title', '$description', '$aliasColumns', '$originalColumns', '$tags.colTags'],
                 'default_language': 'portuguese',
-                'weights': {'title':10, 'description':8, 'columns':6, 'colTags': 5}
+                'weights': {'title':10, 'description':8, 'aliasColumns':6, 'originalColumns':6, 'colTags': 5}
             }
         ]
     }
