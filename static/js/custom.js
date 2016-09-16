@@ -2,7 +2,7 @@ $(function () {
 
     var data = [];
     var idInit = 0;
-
+    $.fn.editable.defaults.mode = 'inline';
     $('.select2').select2({
         tags: true
     });
@@ -111,70 +111,6 @@ $(function () {
                 ]
             });
         });
-    });
-
-    $('#goBackToFirstStepId').click(function (event) {
-        window.location.replace('/');
-        $('html, body').animate({ scrollTop: 0 }, 'fast');
-
-    });
-
-    $('#goBackToSecondStepId').click(function (event) {
-        var secondStep = $('#secondStepId');
-        var thirdStep = $('#thirdStepId');
-        var secondBreadcrumb = $('#step2Breadcrumb');
-        var thirdBreadcrumb = $('#step3Breadcrumb');
-        secondStep.show();
-        secondBreadcrumb.addClass('active');
-        secondBreadcrumb.removeClass('disabled');
-        thirdStep.hide();
-        thirdBreadcrumb.addClass('disabled');
-        thirdBreadcrumb.removeClass('active');
-        $('html, body').animate({ scrollTop: 0 }, 'fast');
-
-    });
-
-    $('#goBackToThirdStepId').click(function (event) {
-        var finalStep = $('#finalStepId');
-        var thirdStep = $('#thirdStepId');
-        var thirdBreadcrumb = $('#step3Breadcrumb');
-        var finalBreadcrumb = $('#step4Breadcrumb');
-        finalStep.hide();
-        finalBreadcrumb.addClass('disabled');
-        finalBreadcrumb.removeClass('active');
-        thirdStep.show();
-        thirdBreadcrumb.addClass('active');
-        thirdBreadcrumb.removeClass('disabled');
-        $('html, body').animate({ scrollTop: 0 }, 'fast');
-
-    });
-
-    $('#goToThirdStepId').click(function (event) {
-        var secondStep = $('#secondStepId');
-        var thirdStep = $('#thirdStepId');
-        var secondBreadcrumb = $('#step2Breadcrumb');
-        var thirdBreadcrumb = $('#step3Breadcrumb');
-        secondStep.hide();
-        secondBreadcrumb.removeClass('active');
-        secondBreadcrumb.addClass('disabled');
-        thirdStep.show();
-        thirdBreadcrumb.removeClass('disabled');
-        thirdBreadcrumb.addClass('active');
-        $('html, body').animate({ scrollTop: 0 }, 'fast');
-    });
-
-    $('#goToFinalStepId').click(function (event) {
-        var thirdStep = $('#thirdStepId');
-        var finalStep = $('#finalStepId');
-        var thirdBreadcrumb = $('#step3Breadcrumb');
-        var finalBreadcrumb = $('#step4Breadcrumb');
-        thirdStep.hide();
-        thirdBreadcrumb.removeClass('active');
-        thirdBreadcrumb.addClass('disabled');
-        finalStep.show();
-        finalBreadcrumb.removeClass('disabled');
-        finalBreadcrumb.addClass('active');
-        $('html, body').animate({ scrollTop: 0 }, 'fast');
     });
 
     $('#submitMetadataId').click(function (event) {
@@ -297,6 +233,100 @@ $(function () {
             });
         }
     });
+
+    $('#goForwardId').click(function (event) {
+        var activeElement = $('ul#wizardId').find('li.active')[0];
+        var activeElementId = activeElement.attributes.id.nodeValue;
+        switch (activeElementId) {
+            case 'step2Breadcrumb':
+                var secondStep = $('#secondStepId');
+                var thirdStep = $('#thirdStepId');
+                var secondBreadcrumb = $('#step2Breadcrumb');
+                var thirdBreadcrumb = $('#step3Breadcrumb');
+                secondStep.hide();
+                secondBreadcrumb.removeClass('active');
+                secondBreadcrumb.addClass('disabled');
+                thirdStep.show();
+                thirdBreadcrumb.removeClass('disabled');
+                thirdBreadcrumb.addClass('active');
+                $('html, body').animate({ scrollTop: 0 }, 'fast');
+                $('#goForwardId').html('Próximo <i class="fa  fa-chevron-right" ></i>');
+                break;
+            case 'step3Breadcrumb':
+                var thirdStep = $('#thirdStepId');
+                var finalStep = $('#finalStepId');
+                var thirdBreadcrumb = $('#step3Breadcrumb');
+                var finalBreadcrumb = $('#step4Breadcrumb');
+                thirdStep.hide();
+                thirdBreadcrumb.removeClass('active');
+                thirdBreadcrumb.addClass('disabled');
+                finalStep.show();
+                finalBreadcrumb.removeClass('disabled');
+                finalBreadcrumb.addClass('active');
+                $('#goForwardId').html('Enviar');
+                $('html, body').animate({ scrollTop: 0 }, 'fast');
+                break;
+
+        }
+    });
+
+    $('#goBackwardsId').click(function (event) {
+        var activeElement = $('ul#wizardId').find('li.active')[0];
+        var activeElementId = activeElement.attributes.id.nodeValue;
+        switch (activeElementId) {
+            case 'step2Breadcrumb':
+                $('#goForwardId').html('Próximo <i class="fa  fa-chevron-right" ></i>');
+                window.location.replace('/');
+                $('html, body').animate({ scrollTop: 0 }, 'fast');
+                break;
+            case 'step3Breadcrumb':
+                var secondStep = $('#secondStepId');
+                var thirdStep = $('#thirdStepId');
+                var secondBreadcrumb = $('#step2Breadcrumb');
+                var thirdBreadcrumb = $('#step3Breadcrumb');
+                secondStep.show();
+                secondBreadcrumb.addClass('active');
+                secondBreadcrumb.removeClass('disabled');
+                thirdStep.hide();
+                thirdBreadcrumb.addClass('disabled');
+                thirdBreadcrumb.removeClass('active');
+                $('html, body').animate({ scrollTop: 0 }, 'fast');
+                $('#goForwardId').html('Próximo <i class="fa  fa-chevron-right" ></i>');
+                break;
+            case 'step4Breadcrumb':
+                var finalStep = $('#finalStepId');
+                var thirdStep = $('#thirdStepId');
+                var thirdBreadcrumb = $('#step3Breadcrumb');
+                var finalBreadcrumb = $('#step4Breadcrumb');
+                finalStep.hide();
+                finalBreadcrumb.addClass('disabled');
+                finalBreadcrumb.removeClass('active');
+                thirdStep.show();
+                thirdBreadcrumb.addClass('active');
+                thirdBreadcrumb.removeClass('disabled');
+                $('#goForwardId').html('Próximo <i class="fa  fa-chevron-right" ></i>');
+                $('html, body').animate({ scrollTop: 0 }, 'fast');
+                break;
+
+        }
+    });
+
+    $('body').on('click', '#closePopoverId', function (event) {
+        $('[data-original-title]').popover('hide');
+    });
+
+    $('#columnsTags a').each(function(element) {
+         $(this).editable();
+    }, this);
+
+    $('[data-toggle=popover]').popover({
+        content: $('#preview-dataset').html(),
+        html: true
+    }).click(function () {
+        $(this).popover('show');
+        $('.popover-title').append('<button type="button" class="close">&times;</button>');
+    });
+
 
     function checkValidity() {
         var titleCheck = $('#title')[0].checkValidity();

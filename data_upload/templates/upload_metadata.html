@@ -20,7 +20,8 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
     <link href="{% static 'bootstrap-treeview.min.css'%}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/css/bootstrap-dialog.min.css">
-
+    <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"
+    />
 
 </head>
 
@@ -31,21 +32,21 @@
             <ul class="sidebar-nav">
                 <li class="sidebar-brand">
                     <a href="#">
-                        Projeto TCC
+                        <i class="fa fa-database" aria-hidden="true"></i> Wiki Olap
                     </a>
                 </li>
-                <li>
-                    <a href="#"> Upload</a>
+                <li class="side-menu-item">
+                    <a href="/"> <i class="fa fa-home" aria-hidden="true"></i> Home</a>
                 </li>
-                <li>
-                    <a href="#">Contato</a>
+                <li class="side-menu-item">
+                    <a href="/upload_file"> <i class="fa fa-cloud-upload" aria-hidden="true"></i> Enviar Dataset</a>
                 </li>
             </ul>
         </div>
         <div class="container-fluid">
             <div class="breadcrumbs row form-group">
                 <div class="col-xs-12">
-                    <ul class="nav nav-pills nav-justified thumbnail setup-panel">
+                    <ul id="wizardId" class="nav nav-pills nav-justified thumbnail setup-panel">
                         <li id="step1Breadcrumb" class="disabled">
                             <a href="#step-1">
                                 <h4 class="list-group-item-heading">1º Passo</h4>
@@ -111,20 +112,7 @@
                                         <span class="help-block">Utilze preferencialmente uma URL. Ex.: dados.gov.br</span>
                                     </div>
                                 </div>
-                                <div class="buttons">
-                                    <div class="form-group separate-buttons-right">
-                                        <label class="col-md-4 control-label" for="goBackToFirstStep"></label>
-                                        <div class="col-md-4">
-                                            <button id="goBackToFirstStepId" class="btn btn-primary">Voltar</button>
-                                        </div>
-                                    </div>
-                                    <div class="form-group separate-buttons-left">
-                                        <label class="col-md-4 control-label" for="goToThirdStep"></label>
-                                        <div class="col-md-4">
-                                            <button id="goToThirdStepId" class="btn btn-primary">Próximo passo</button>
-                                        </div>
-                                    </div>
-                                </div>
+
                             </fieldset>
                         </div>
                     </div>
@@ -140,34 +128,25 @@
                             <fieldset>
                                 <legend>Tags</legend>
                                 <span class="help-block">Você pode adicionar tags para as colunas de seu dataset! <br>
-                                    Isso ajuda na indexação de seu dataset em nosso banco de dados. </span>                                {% for column in columnNames %}
-                                <div id="columnsId" class="form-group">
-                                    <label class="col-md-4 control-label" for="{{column}}"> {{column}} </label>
-                                    <select id="{{column}}" style="width:30%;" class="select2" multiple>
+                                    Isso ajuda na indexação de seu dataset em nosso banco de dados. <br>
+                                    Aqui você também pode editar os nomes das colunas se desejar, basta clicar sobre eles. <br>
+                                    Utilizar nomes amigáveis facilita a busca do dataset em nosso repositório. </span>
+                                <div id="columnsTags">
+                                    {% for column in columnNames %}
+                                    <div id="columnsId" class="form-group">
+                                        <label class="col-md-4 control-label" for="{{column}}"> <a class="column-alias" id="{{column}}Editable"> {{column}} </a> </label>
+                                        <select id="{{column}}Id" style="width:30%;" class="select2" multiple>
                                             <option value="Ano">Ano</option>
                                             <option value="Bairro">Bairro</option>
                                             <option value="Cidade">Cidade</option>
                                             <option value="Estado">Estado</option>
                                             <option value="Dia">Dia</option>
                                     </select>
+                                    </div>
+                                    {% endfor %}
                                 </div>
-                                {% endfor %}
                                 <br>
                                 <!-- Button -->
-                                <div class="nav-bar-fixed-bottom buttons">
-                                    <div class="form-group separate-buttons-right">
-                                        <label class="col-md-4 control-label" for="goBackToSecondStep"></label>
-                                        <div class="col-md-4">
-                                            <button id="goBackToSecondStepId" class="btn btn-primary">Voltar</button>
-                                        </div>
-                                    </div>
-                                    <div class="form-group separate-buttons-left">
-                                        <label class="col-md-4 control-label" for="goToFinalStep"></label>
-                                        <div class="col-md-4">
-                                            <button id="goToFinalStepId" class="btn btn-primary">Próximo passo</button>
-                                        </div>
-                                    </div>
-                                </div>
                             </fieldset>
                         </div>
                     </div>
@@ -193,52 +172,59 @@
                                 <div class="hierarquias-classe" id="hierarquias">
                                 </div>
                                 <br>
-                                <legend>Preview do seu dataset</legend>
-                                <table id="dataTableId" data-toggle="table" data-editable="true">
-                                    <thead>
-                                        <tr>
-                                            {% for column in columnNames %}
-                                            <th>
-                                                {{column}}
-                                            </th>
-                                            {% endfor %}
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for entry in data %}
-                                        <tr>
-                                            {% for value in entry %}
-                                            <td>{{value}}</td>
-                                            {% endfor %}
-                                        </tr>
-                                        {% endfor %}
-
-                                    </tbody>
-                                </table>
                                 <!-- Button -->
-                                <br>
-                                <div class="buttons">
-                                    <div class="form-group separate-buttons-right">
-                                        <label class="col-md-4 control-label" for="goBackToThirdStep"></label>
-                                        <div class="col-md-4">
-                                            <button id="goBackToThirdStepId" class="btn btn-primary">Voltar</button>
-                                        </div>
-                                    </div>
-                                    <div class="form-group separate-buttons-left">
-                                        <label class="col-md-4 control-label" for="sumbitMetadata"></label>
-                                        <div class="col-md-4">
-                                            <button id="submitMetadataId" class="btn btn-primary">Enviar</button>
-                                        </div>
-                                    </div>
-                                </div>
-
                             </fieldset>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div id="preview-dataset">
+            <i id="closePopoverId" class="close-popover fa fa-2x fa-times"></i>
+            <table id="dataTableId" data-toggle="table" data-editable="true">
+                <thead>
+                    <tr>
+                        {% for column in columnNames %}
+                        <th>
+                            {{column}}
+                        </th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for entry in data %}
+                    <tr>
+                        {% for value in entry %}
+                        <td>{{value}}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
 
+                </tbody>
+            </table>
+        </div>
+        <footer class="footer">
+            <div class=" navbar footer-custom navbar-fixed-bottom buttons">
+                <div class="form-group separate-buttons-preview">
+                    <label class="col-md-4 control-label" for="previewDataset"></label>
+                    <div class="col-md-4">
+                        <a data-toggle="popover" data-placement="top" id="showPreviewDataset" class="btn btn-lg btn-default"> Preview do Dataset </i></a>
+                    </div>
+                </div>
+                <div class="form-group separate-buttons-right">
+                    <label class="col-md-4 control-label" for="goBackwards"></label>
+                    <div class="col-md-4">
+                        <button id="goBackwardsId" class="btn btn-lg btn-default"><i class="fa  fa-chevron-left" ></i> Voltar </button>
+                    </div>
+                </div>
+                <div class="form-group separate-buttons-left">
+                    <label class="col-md-4 control-label" for="goForward"></label>
+                    <div class="col-md-4">
+                        <button id="goForwardId" class="btn btn-lg btn-primary">Próximo <i class="fa  fa-chevron-right" ></i></button>
+                    </div>
+                </div>
+            </div>
+        </footer>
     </div>
 
 
@@ -255,6 +241,8 @@
     <script src="{% static 'bootstrap-waitingfor.min.js' %}"></script>
     <script src="{% static 'custom.js' %}"></script>
     <script src="https://use.fontawesome.com/b4043f9797.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+
 
 
 
