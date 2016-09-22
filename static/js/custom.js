@@ -217,7 +217,7 @@ $(function () {
     });
 
     function sendMetadata() {
-        if (true) {
+        if (checkValidity()) {
             var originalColumns = [];
             var aliasColumns = [];
             var tags = [];
@@ -283,6 +283,7 @@ $(function () {
                 "title": $('#title').val(),
                 "description": $('#descriptionId').val(),
                 "source": $('#source').val(),
+                "email": $('#contactEmail').val(),
                 "tags": tags,
                 "originalColumns": originalColumns,
                 "aliasColumns": aliasColumns,
@@ -375,10 +376,11 @@ $(function () {
         var titleCheck = $('#title')[0].checkValidity();
         var descriptionCheck = $('#descriptionId')[0].checkValidity();
         var sourceCheck = $('#source')[0].checkValidity();
-        if (!titleCheck || !descriptionCheck || !sourceCheck) {
+        var emailCheck = $('#contactEmail')[0].checkValidity();
+        if (!titleCheck || !descriptionCheck || !sourceCheck || !emailCheck) {
             BootstrapDialog.show({
                 title: 'Erro',
-                message: 'Os campos título, descrição e fonte são obrigatórios',
+                message: 'Os campos título, descrição, fonte e email são obrigatórios',
                 closable: true,
                 closeByBackdrop: false,
                 closeByKeyboard: false,

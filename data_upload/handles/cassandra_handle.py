@@ -32,6 +32,13 @@ def createTableFromDataFrame(table_name, column_names, df):
     print("Tabela "+table_name+" criada")
     closeConnection(session)
 
+def dropTableFromCassandra(table_name):
+    session = getDevConnection()
+    query = 'DROP TABLE '+table_name+';'
+    session.execute(query)
+    print("Tabela "+table_name+" deletada")
+    closeConnection(session)
+
 def insertIntoTableFromDataFrame(table_name, df):
     df['id'] = range(len(df.index))
     df = np.round(df, decimals=1)
@@ -49,14 +56,22 @@ def insertIntoTableFromDataFrame(table_name, df):
         table_name
     )
 
+
 def processDfToCassandra(session, metadata):
     session_id = session['session_id']
     cache_id = 'my_data_set_' + session_id
     df = cache.get(cache_id)
     column_names = list(df.columns.values)
     table_name = metadata.tableId
-    createTableFromDataFrame(table_name, column_names,df)
-    insertIntoTableFromDataFrame(table_name, df)
+    try:
+        createTableFromDataFrame(table_name, column_names,df)
+    except:
+        raise CreateTableError("Error when creating table on Cassandra")
+    try:
+        insertIntoTableFromDataFrame(table_name, df)
+    except:
+        dropTableFromCassandra(table_name)
+        raise InsertRowsError("Error when adding data to table on Cassandra")
 
 def getCassandraTypeFromDf(df, col):
     switcher = {

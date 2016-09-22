@@ -23,6 +23,7 @@ class Metadata(Document):
     aliasColumns = ListField()
     tags = ListField(EmbeddedDocumentField(Tags), default=list)
     hierarchies = ListField(EmbeddedDocumentField(Hierarchies),  default=list)
+    email = StringField()
     created_at = DateTimeField(default=datetime.datetime.now)
     updated_at = DateTimeField(default=datetime.datetime.now)
     meta = {
