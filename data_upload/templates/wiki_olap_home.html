@@ -31,56 +31,75 @@
             <ul class="sidebar-nav">
                 <li class="sidebar-brand">
                     <a href="#">
-                        <i class="fa fa-database" aria-hidden="true"></i> Wiki Olap
+                        <i class="fa fa-database" aria-hidden="true"></i> Wiki Olap <sub>Beta</sub>
                     </a>
                 </li>
                 <li class="side-menu-item">
                     <a href="/"> <i class="fa fa-home" aria-hidden="true"></i> Home</a>
                 </li>
                 <li class="side-menu-item">
+                    <a href="/wiki_olap_help"> <i class="fa fa-question-circle" aria-hidden="true"></i> Ajuda</a>
+                </li>
+                <li class="side-menu-item">
                     <a href="/upload_file"> <i class="fa fa-cloud-upload" aria-hidden="true"></i> Enviar Dataset</a>
                 </li>
             </ul>
         </div>
+
         <div class="container-fluid">
-            <div class="breadcrumbs row form-group">
-                <div class="col-xs-12">
-                    <ul class="nav nav-pills nav-justified thumbnail setup-panel">
-                        <li class="active">
-                            <a href="#step-1">
-                                <h4 class="list-group-item-heading">1º Passo</h4>
-                                <i class="fa fa-3x fa-cloud-upload" aria-hidden="true"></i>
-                                <p class="list-group-item-text">Upload</p>
-                            </a>
-                        </li>
-                        <li class="disabled">
-                            <a href="#step-2">
-                                <h4 class="list-group-item-heading">2º Passo</h4>
-                                <i class="fa fa-3x fa-edit" aria-hidden="true"></i>
-                                <p class="list-group-item-text">Descrição</p>
-                            </a>
-                        </li>
-                        <li class="disabled">
-                            <a href="#step-3">
-                                <h4 class="list-group-item-heading">3º Passo</h4>
-                                <i class="fa fa-3x fa-tags" aria-hidden="true"></i>
-                                <p class="list-group-item-text">Tags</p>
-                            </a>
-                        </li>
+            <div class="page-content-wrapper">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="text-left">
+                            <div class="form-horizontal">
+                                <fieldset>
+                                    <!-- Form Name -->
+                                    <legend>
+                                        <h1>Bem vindo ao WikiOlap!
+                                            <h1>
+                                    </legend>
 
-                        <li class="disabled">
-                            <a href="#step-4">
-                                <h4 class="list-group-item-heading">4º Passo</h4>
-                                <i class="fa fa-3x fa-sitemap" aria-hidden="true"></i>
-                                <p class="list-group-item-text">Hierarquias</p>
-                            </a>
-                        </li>
+                                </fieldset>
+                                
+                                <div class="home-whoweare">
+                                    <h3>O que é?</h3>
+                                    O WikiOlap é um repositório integrado que permite o armazenamento de diferentes conjuntos de dados. A partir do processamento
+                                    desses dados nossa ferramenta permite o acesso aos dados integrados a partir de uma API
+                                    REST. Com isso usuários podem colaborar enviando diferentes conjuntos de dados e acessando
+                                    os conjuntos enviados por outros usuários. A partir desses dados integrados diferentes
+                                    visualizações e análises podem ser feitas!
+                                    </br>
+                                </div>
+                                </br>
+                                <div class="image-home">
+                                    <img src="{% static 'bigdata.png'%}" />
+                                    <img src="{% static 'home.png'%}" />
 
-                    </ul>
+                                </div>
+                                </br>
+
+                                <div class="home-content">
+                                    <div class="home-integrate">
+                                        <h3> Integre seu dataset a nosso repositório </h3>
+                                        Envie seu dataset, permita que outros o utilizem, cruze seu dataset com outros do repositório e gere diferente análises e
+                                        visualizações. Clique no ícone abaixo!
+                                        </br>
+                                        <i style="font-size:100px"  onclick="location.href = '/upload_file'" class="fa fa-cloud-upload"> </i>
+                                    </div>
+                                    <div class="home-help">
+                                        <h3> Aprenda a utilizar</h3>
+                                        Clique no ícone para aprender como utilizar nossa ferramenta
+                                        </br>
+                                        <i style="font-size:100px" onclick="location.href = '/wiki_olap_help'" class="fa fa-question-circle"> </i>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
     <input type="file" class="dz-hidden-input" style="visibility: hidden; position: absolute; top: 0px; left: 0px; height: 0px; width: 0px;">
     <script src="{% static 'jquery.js' %}"></script>

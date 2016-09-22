@@ -404,7 +404,118 @@ $(function () {
             return v[name] === value ? null : v;
         });
         return newArray;
-    };
+    }
+
+    $('body').on('click', '#passContentSteps', function (event) {
+        var activeElement = $('ul#wizardId').find('li.active')[0];
+        var activeElementId = activeElement.attributes.id.nodeValue;
+        switch (activeElementId) {
+            case 'step1Breadcrumb':
+                var content1Step = $('#content1Step');
+                var content2Step = $('#content2Step');
+                var firstBreadcrumb = $('#step1Breadcrumb');
+                var secondBreadcrumb = $('#step2Breadcrumb');
+                content1Step.fadeOut('slow');
+                firstBreadcrumb.removeClass('active');
+                firstBreadcrumb.addClass('disabled');
+                content2Step.fadeIn('slow');
+                secondBreadcrumb.removeClass('disabled');
+                secondBreadcrumb.addClass('active');
+                break;
+            case 'step2Breadcrumb':
+                var content2Step = $('#content2Step');
+                var content3Step = $('#content3Step');
+                var secondBreadcrumb = $('#step2Breadcrumb');
+                var thirdBreadcrumb = $('#step3Breadcrumb');
+                content2Step.fadeOut('slow');
+                secondBreadcrumb.removeClass('active');
+                secondBreadcrumb.addClass('disabled');
+                content3Step.fadeIn('slow');
+                thirdBreadcrumb.removeClass('disabled');
+                thirdBreadcrumb.addClass('active');
+                break;
+            case 'step3Breadcrumb':
+                var content3Step = $('#content3Step');
+                var content4Step = $('#content4Step');
+                var thirdBreadcrumb = $('#step3Breadcrumb');
+                var fourBreadcrumb = $('#step4Breadcrumb');
+                content3Step.fadeOut('slow');
+                thirdBreadcrumb.removeClass('active');
+                thirdBreadcrumb.addClass('disabled');
+                content4Step.fadeIn('slow');
+                fourBreadcrumb.removeClass('disabled');
+                fourBreadcrumb.addClass('active');
+                var tree = [
+                    {
+                        text: "Região",
+                        nodes: [
+                            {
+                                text: "Estado",
+                            },
+                            {
+                                text: "Cidade"
+                            }
+                        ],
+                        tags: [3]
+                    },
+                ];
+                $('#treeElementExample').treeview({
+                    data: tree,
+                    levels: 10,
+                    color: "#000000",
+                    backColor: "#FFFFFF",
+                    showTags: true,
+                    emptyIcon: '',
+                });
+                break;
+            case 'step4Breadcrumb':
+                window.location.replace('/upload_file/');
+                break;
+        }
+    });
+
+    $('body').on('click', '#backContentSteps', function (event) {
+        var activeElement = $('ul#wizardId').find('li.active')[0];
+        var activeElementId = activeElement.attributes.id.nodeValue;
+        switch (activeElementId) {
+            case 'step2Breadcrumb':
+                var content2Step = $('#content2Step');
+                var content1Step = $('#content1Step');
+                var secondBreadcrumb = $('#step2Breadcrumb');
+                var firstBreadcrumb = $('#step1Breadcrumb');
+                content2Step.fadeOut('slow');
+                secondBreadcrumb.removeClass('active');
+                secondBreadcrumb.addClass('disabled');
+                content1Step.fadeIn('slow');
+                firstBreadcrumb.removeClass('disabled');
+                firstBreadcrumb.addClass('active');
+                break;
+            case 'step3Breadcrumb':
+                var content3Step = $('#content3Step');
+                var content2Step = $('#content2Step');
+                var thirdBreadcrumb = $('#step3Breadcrumb');
+                var secondBreadcrumb = $('#step2Breadcrumb');
+                content3Step.fadeOut('slow');
+                thirdBreadcrumb.removeClass('active');
+                thirdBreadcrumb.addClass('disabled');
+                content2Step.fadeIn('slow');
+                secondBreadcrumb.removeClass('disabled');
+                secondBreadcrumb.addClass('active');
+                break;
+            case 'step4Breadcrumb':
+                var content4Step = $('#content4Step');
+                var content3Step = $('#content3Step');
+                var fourBreadcrumb = $('#step4Breadcrumb');
+                var thirdBreadcrumb = $('#step3Breadcrumb');
+                content4Step.fadeOut('slow');
+                fourBreadcrumb.removeClass('active');
+                fourBreadcrumb.addClass('disabled');
+                content3Step.fadeIn('slow');
+                thirdBreadcrumb.removeClass('disabled');
+                thirdBreadcrumb.addClass('active');
+                break;
+        }
+    });
 
 
 
