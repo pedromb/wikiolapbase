@@ -34,15 +34,19 @@ def createTableFromDataFrame(table_name, column_names, df):
 
 def insertIntoTableFromDataFrame(table_name, df):
     df['id'] = range(len(df.index))
+    df = np.round(df, decimals=1)
     column_names = list(df.columns.values)
     my_tuples = [tuple(x) for x in df.values]
-    rdd = SparkCassandra.sc.parallelize([{ \
-        column_names[index].lower():value for index,value in enumerate(tuple_entry) \
-        } for tuple_entry in my_tuples])
+    rdd = SparkCassandra.sc.parallelize([{ 
+            column_names[index].lower():value 
+            if not isinstance(value, np.float64) else float(value) \
+            for index,value in enumerate(tuple_entry)
+        } for tuple_entry in my_tuples
+        ])
+
     rdd.saveToCassandra( \
         "cassandra_dev", \
-        table_name, \
-        ttl = timedelta(hours=1) \
+        table_name
     )
 
 def processDfToCassandra(session, metadata):

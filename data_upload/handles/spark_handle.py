@@ -1,11 +1,17 @@
 from pyspark import SparkContext, SparkConf
+from pyspark.sql import SQLContext
 from pyspark_cassandra import CassandraSparkContext
 
 class SparkCassandra:
-    appName = "WikiOlap"
+    appNameCassandra = "WikiOlapCassandra"
+    appNameSQL = "WikiOlapSQL"
     master = "spark://pedro-linux:7077"
-    conf = SparkConf() \
-        .setAppName(appName) \
+
+    confCassandra = SparkConf() \
+        .setAppName(appNameCassandra) \
         .setMaster(master) \
         .set("spark.cassandra.connection.host", "localhost")
-    sc = CassandraSparkContext(conf=conf)
+
+
+    sc = CassandraSparkContext(conf=confCassandra)
+    sqlContext = SQLContext(sc)
