@@ -1,4 +1,4 @@
-# projetotcc
+# WikiOlap
 Projeto de TCC
 
 Pedro Magalhães Bernardo
