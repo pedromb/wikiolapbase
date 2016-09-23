@@ -19,14 +19,14 @@ def closeConnection(session):
     session.shutdown()
     print("Conexão ao cluster cassandra {} fechada".format(session.cluster.metadata.cluster_name))
 
-def createTableFromDataFrame(table_name, column_names, df):
+def createTableFromDataFrame(table_name, alias_column_names, real_column_names, df):
     session = getDevConnection()
     query = 'CREATE TABLE '+table_name+' ( id bigint, '
-    for i in column_names:
-        col = i
-        i = normalize('NFKD', i).encode('ascii', 'ignore').decode('ascii')
-        i = i.lower().strip().replace(' ','_')
-        query += i+" "+getCassandraTypeFromDf(df,col)+", "
+    for (f,s) in zip(alias_column_names,real_column_names):
+        col = f
+        f = normalize('NFKD', f).encode('ascii', 'ignore').decode('ascii')
+        f = f.lower().strip().replace(' ','_')
+        query += f+" "+getCassandraTypeFromDf(df,s)+", "
     query += " PRIMARY KEY(id));"
     session.execute(query)
     print("Tabela "+table_name+" criada")
@@ -39,13 +39,13 @@ def dropTableFromCassandra(table_name):
     print("Tabela "+table_name+" deletada")
     closeConnection(session)
 
-def insertIntoTableFromDataFrame(table_name, df):
+def insertIntoTableFromDataFrame(table_name, df, alias_column_names):
     df['id'] = range(len(df.index))
     df = np.round(df, decimals=1)
-    column_names = list(df.columns.values)
+    alias_column_names.append('id')
     my_tuples = [tuple(x) for x in df.values]
     rdd = SparkCassandra.sc.parallelize([{ 
-            column_names[index].lower():value 
+            alias_column_names[index].lower():value 
             if not isinstance(value, np.float64) else float(value) \
             for index,value in enumerate(tuple_entry)
         } for tuple_entry in my_tuples
@@ -61,14 +61,15 @@ def processDfToCassandra(session, metadata):
     session_id = session['session_id']
     cache_id = 'my_data_set_' + session_id
     df = cache.get(cache_id)
-    column_names = list(df.columns.values)
+    alias_column_names = metadata.aliasColumns
+    real_column_names = metadata.originalColumns
     table_name = metadata.tableId
     try:
-        createTableFromDataFrame(table_name, column_names,df)
+        createTableFromDataFrame(table_name, alias_column_names, real_column_names,df)
     except:
         raise CreateTableError("Error when creating table on Cassandra")
     try:
-        insertIntoTableFromDataFrame(table_name, df)
+        insertIntoTableFromDataFrame(table_name, df, alias_column_names)
     except:
         dropTableFromCassandra(table_name)
         raise InsertRowsError("Error when adding data to table on Cassandra")

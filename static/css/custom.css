@@ -289,7 +289,27 @@ button-adicionar-dataset:focus {
   width: 30%;
 }
 
-.home-whoweare{
+.home-whoweare {
   text-align: center;
   font-size: 1.4em;
+}
+
+.search-box {
+  width: 30%;
+}
+
+.result-box {
+  width: 50%;
+}
+
+.searchElement {
+  display: flex;
+}
+
+.result-title {
+  font-size: 1.4em;
+}
+
+.result-description {
+  font-size: 1.2em;
 }

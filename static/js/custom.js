@@ -205,8 +205,16 @@ $(function () {
     });
 
     $('#columnsTags a').each(function (element) {
-        $(this).editable();
-    }, this);
+        $(this).editable({
+            validate: function (value) {
+                if (value === null || value === '') {
+                    return 'Não são permitidos valores vazios';
+                }
+
+            }
+        }, this);
+        $(this).attr('title', $(this).text());
+    });
 
     $('[data-toggle=popover]').popover({
         content: $('#preview-dataset').html(),
@@ -517,6 +525,53 @@ $(function () {
         }
     });
 
+    $("#searchButton").click(function (event) {
+        var searchValues = $("#searchKeywords").val().replace(/ /g, ",");
+        var requestUrl = "/api/searchmetadata/" + searchValues;
 
+        $.ajax({
+            url: requestUrl,
+            type: 'GET',
+            success: function (data) {
+                var inHtml = "";
+                var buttonId = "seeDataId";
+                $.each(data, function (index, value) {
+                    var idIndex = buttonId + '' + index;
+                    var newItem = '<li class="list-group-item"> <div> <span class="result-title"> Título: ' + value.title + '</span>' +
+                        '</br> <span class="result-description"> Descrição: ' + value.description + '</span>' +
+                        '</br> <span class="result-description"> Id do Dataset: ' + value.tableId + '</span> </div></li>';
+                    inHtml += newItem;
+                });
 
+                $("#searchResult").html(inHtml);
+            },
+            error: function (data) {
+                BootstrapDialog.show({
+                    title: 'Informação',
+                    message: 'Não foram encontrados datasets que satisfazem os termos buscados.',
+                    onhide: function (dialogRef) {
+                        $("#searchResult").html('');
+                    },
+                    closable: true,
+                    closeByBackdrop: false,
+                    closeByKeyboard: false,
+                    buttons: [
+                        {
+                            label: 'Ok',
+                            cssClass: 'btn-default',
+                            action: function (dialogRef) {
+                                dialogRef.close();
+                            }
+                        }
+                    ]
+                });
+            }
+        });
+    });
+
+    $("#searchKeywords").keyup(function (event) {
+        if (event.keyCode == 13) {
+            $("#searchButton").click();
+        }
+    });
 });

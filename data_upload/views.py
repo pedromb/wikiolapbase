@@ -20,6 +20,9 @@ def wiki_olap_help(request):
 def upload_file(request):
     return render(request, 'upload_file.html')
 
+def search_metadata(request):
+    return render(request, 'search_metadata.html')
+
 def upload_metadata(request):
     session_id = request.session['session_id']
     data_cache_id = 'my_data_set_' + session_id
