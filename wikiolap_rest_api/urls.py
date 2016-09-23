@@ -1,6 +1,6 @@
-from django.conf.urls import url
+from wikiolap_rest_api import views
 from rest_framework.urlpatterns import format_suffix_patterns
-from rest_api import views
+from django.conf.urls import url
 
 urlpatterns = [
     url(r'^api/searchmetadata/(?P<keywords>[\w,]+)/$', views.SearchMetadata.as_view()),

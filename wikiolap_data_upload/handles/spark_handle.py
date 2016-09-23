@@ -1,6 +1,7 @@
+from pyspark_cassandra import CassandraSparkContext
 from pyspark import SparkContext, SparkConf
 from pyspark.sql import SQLContext
-from pyspark_cassandra import CassandraSparkContext
+
 
 class SparkCassandra:
     appNameCassandra = "WikiOlapCassandra"

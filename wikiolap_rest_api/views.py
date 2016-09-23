@@ -1,26 +1,18 @@
-from django.shortcuts import render
-from rest_framework.views import APIView
+from wikiolap_data_upload.handles.spark_handle import SparkCassandra
+from wikiolap_data_upload.models import Metadata
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework import status
-from mongoengine import QuerySet
-from data_upload.models import Metadata
-from data_upload.handles.spark_handle import SparkCassandra
 from pyspark_cassandra import RowFormat
 from pyspark.sql.functions import *
+from mongoengine import QuerySet
+from django.shortcuts import render
 import pandas as pd
 import json
 
 class SearchMetadata(APIView):
     """
     Search for metadata based on keywords
-
-    params:
-        -keywords: list of keywords to query the metadata repository
-            -type: string separated by commas
-
-    endpoint: /searchmetadata/{keywords}
-
-    Example: /searchmetadata/divida,estado,municipio
 
     """
     def get(self, request, keywords, format=None):
@@ -71,7 +63,7 @@ class GetData(APIView):
 
 class JoinData(APIView):
     """
-    Retrieve data from repository
+    Join data from repository
 
     """
 

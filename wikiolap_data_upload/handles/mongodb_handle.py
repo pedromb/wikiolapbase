@@ -1,5 +1,5 @@
+from wikiolap_data_upload.models import Metadata
 from mongoengine import connect
-from data_upload.models import Metadata
 import json
 
 def saveMetadata(metadata):

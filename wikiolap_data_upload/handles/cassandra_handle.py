@@ -1,8 +1,8 @@
-from data_upload.handles.spark_handle import SparkCassandra
+from wikiolap_data_upload.handles.spark_handle import SparkCassandra
 from cassandra.cluster import Cluster
 from django.core.cache import cache
-from datetime import timedelta
 from unicodedata import normalize
+from datetime import timedelta
 import pandas as pd
 import numpy as np
 import time

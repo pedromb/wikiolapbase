@@ -1,14 +1,14 @@
-import pandas as pd
-from data_upload.forms import *
-from data_upload.handles.file_handle import *
-from data_upload.handles.mongodb_handle import *
-from data_upload.models import *
-from django.shortcuts import render
+from wikiolap_data_upload.handles.mongodb_handle import *
+from wikiolap_data_upload.handles.spark_handle import *
+from wikiolap_data_upload.handles.file_handle import *
+from wikiolap_data_upload.models import *
+from wikiolap_data_upload.forms import *
 from django.views.decorators.csrf import csrf_exempt
-from django.core.cache import cache
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
-from data_upload.handles.spark_handle import *
+from django.shortcuts import render
+from django.core.cache import cache
+import pandas as pd
 import json
 
 def wiki_olap_home(request):
