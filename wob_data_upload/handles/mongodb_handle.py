@@ -1,4 +1,4 @@
-from wikiolap_data_upload.models import Metadata
+from wob_data_upload.models import Metadata
 from mongoengine import connect
 import json
 

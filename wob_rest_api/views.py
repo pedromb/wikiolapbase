@@ -1,5 +1,5 @@
-from wikiolap_data_upload.handles.spark_handle import SparkCassandra
-from wikiolap_data_upload.models import Metadata
+from wob_data_upload.handles.spark_handle import SparkCassandra
+from wob_data_upload.models import Metadata
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status

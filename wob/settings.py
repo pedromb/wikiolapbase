@@ -28,8 +28,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_cassandra_engine',
-    'wikiolap_data_upload',
-    'wikiolap_rest_api',
+    'wob_data_upload',
+    'wob_rest_api',
     'rest_framework'
 ]
 
@@ -44,7 +44,7 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'wikiolap.urls'
+ROOT_URLCONF = 'wob.urls'
 
 TEMPLATES = [
     {
@@ -64,7 +64,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'wikiolap.wsgi.application'
+WSGI_APPLICATION = 'wob.wsgi.application'
 
 
 # Database

@@ -1,4 +1,5 @@
-# projetotcc
+# WikiOlapBase (WOB)
+
 Projeto de TCC
 
 Pedro Magalhães Bernardo

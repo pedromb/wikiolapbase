@@ -309,7 +309,7 @@ $(function () {
                         title: 'Informação',
                         message: 'Seu dataset foi carregado com sucesso!',
                         onhide: function (dialogRef) {
-                            window.location.replace('/');
+                            window.location.replace('/upload_file');
                             $('html, body').animate({ scrollTop: 0 }, 'fast');
                         },
                         closable: true,

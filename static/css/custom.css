@@ -313,3 +313,7 @@ button-adicionar-dataset:focus {
 .result-description {
   font-size: 1.2em;
 }
+
+.sidebar-brand{
+  font-size: 1em !important;
+}

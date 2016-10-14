@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class RestApiConfig(AppConfig):
-    name = 'wikiolap_rest_api'
+    name = 'wob_rest_api'

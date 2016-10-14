@@ -1,4 +1,4 @@
-from wikiolap_data_upload.handles.cassandra_handle import *
+from wob_data_upload.handles.cassandra_handle import *
 from django.core.cache import cache
 import pandas as pd
 import uuid

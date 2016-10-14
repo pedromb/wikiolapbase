@@ -1,4 +1,4 @@
-from wikiolap_data_upload.handles.spark_handle import SparkCassandra
+from wob_data_upload.handles.spark_handle import SparkCassandra
 from cassandra.cluster import Cluster
 from django.core.cache import cache
 from unicodedata import normalize
