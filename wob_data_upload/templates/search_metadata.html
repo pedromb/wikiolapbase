@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load staticfiles %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, shrink-to-fit=no, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>WikiOlapBase - Busca</title>
+
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link href="{% static 'simple-sidebar.css'%}" rel="stylesheet">
+    <link href="{% static 'dropzone.css'%}" rel="stylesheet">
+    <link href="{% static 'custom.css'%}" rel="stylesheet">
+    <link href="{% static 'bootstrap-table.css'%}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    <link href="{% static 'bootstrap-treeview.min.css'%}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/css/bootstrap-dialog.min.css">
+    <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"
+    />
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="#">
+                        <i class="fa fa-database" aria-hidden="true"></i> WikiOlap Base <sub style="font-size:0.5em;">Beta</sub>
+                    </a>
+                </li>
+                <li class="side-menu-item">
+                    <a href="/"> <i class="fa fa-home" aria-hidden="true"></i> Home</a>
+                </li>
+
+                <li class="side-menu-item">
+                    <a href="/upload_file"> <i class="fa fa-cloud-upload" aria-hidden="true"></i> Enviar Dataset</a>
+                </li>
+                <li class="side-menu-item">
+                    <a href="/search_metadata"> <i class="fa fa-search" aria-hidden="true"></i> Buscar Datasets</a>
+                </li>
+                <li class="side-menu-item">
+                    <a href="/wiki_olap_help"> <i class="fa fa-question-circle" aria-hidden="true"></i> Ajuda</a>
+                </li>
+            </ul>
+        </div>
+        <div class="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="text-left">
+                        <fieldset>
+                            <legend> Busque conjuntos de dados no repositório
+                            </legend>
+                        </fieldset>
+                        <div class="searchElement">
+                            <div class="form-group search-box has-feedback has-feedback-right">
+                                <input id="searchKeywords" type="text" class="form-control" placeholder="" />
+                                <i class="glyphicon glyphicon-search form-control-feedback"></i>
+                            </div>
+                            <div>
+                                <span class="btn btn-success search-button" id="searchButton">
+                                        <span>Buscar</span>
+                                </span>
+                            </div>
+                        </div>
+                        <fieldset>
+                            <legend> Resultados
+                            </legend>
+                        </fieldset>
+                        <div id="searchResult" class="result-box">
+                            <ul class="list-group ">
+                            </ul>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'jquery.js' %}"></script>
+    <script src="{% static 'dropzone.js' %}"></script>
+    <script src="{% static 'jquery_dropzone.js' %}"></script>
+    <script src="{% static 'bootstrap-table.js' %}"></script>
+    <script src="{% static 'bootstrap-table-editable.min.js' %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="{% static 'bootstrap-treeview.min.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.7/js/bootstrap-dialog.min.js"></script>
+    <script src="{% static 'bootstrap-waitingfor.min.js' %}"></script>
+    <script src="{% static 'custom.js' %}"></script>
+    <script src="https://use.fontawesome.com/b4043f9797.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+
+
+
+
+
+</body>
+
+</html>

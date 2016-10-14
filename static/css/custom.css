@@ -1,57 +1,319 @@
+html, body {
+  height: 100%;
+}
 
-    html, body {
-      height: 100%;
-    }
-    #actions {
-      margin: 2em 0;
-    }
-
-
-    /* Mimic table appearance */
-    div.table {
-      display: table;
-    }
-    div.table .file-row {
-      display: table-row;
-    }
-    div.table .file-row > div {
-      display: table-cell;
-      vertical-align: top;
-      border-top: 1px solid #ddd;
-      padding: 8px;
-    }
-    div.table .file-row:nth-child(odd) {
-      background: #f9f9f9;
-    }
+#actions {
+  margin: 2em 0;
+}
 
 
+/* Mimic table appearance */
 
-    /* The total progress gets shown by event listeners */
-    #total-progress {
-      opacity: 0;
-      transition: opacity 0.3s linear;
-    }
+div.table {
+  display: table;
+}
 
-    /* Hide the progress bar when finished */
-    #previews .file-row.dz-success .progress {
-      opacity: 0;
-      transition: opacity 0.3s linear;
-    }
+div.table .file-row {
+  display: table-row;
+}
 
-    /* Hide the delete button initially */
-    #previews .file-row .delete {
-      display: none;
-    }
+div.table .file-row > div {
+  display: table-cell;
+  vertical-align: top;
+  border-top: 1px solid #ddd;
+  padding: 8px;
+}
 
-    /* Hide the start and cancel buttons and show the delete button */
-
-    #previews .file-row.dz-success .start,
-    #previews .file-row.dz-success .cancel {
-      display: none;
-    }
-    #previews .file-row.dz-success .delete {
-      display: block;
-    }
+div.table .file-row:nth-child(odd) {
+  background: #f9f9f9;
+}
 
 
-  
+/* The total progress gets shown by event listeners */
+
+#total-progress {
+  opacity: 0;
+  transition: opacity 0.3s linear;
+}
+
+
+/* Hide the progress bar when finished */
+
+#previews .file-row.dz-success .progress {
+  opacity: 0;
+  transition: opacity 0.3s linear;
+}
+
+
+/* Hide the delete button initially */
+
+#previews .file-row .delete {
+  display: none;
+}
+
+
+/* Hide the start and cancel buttons and show the delete button */
+
+#previews .file-row.dz-success .start, #previews .file-row.dz-success .cancel {
+  display: none;
+}
+
+#previews .file-row.dz-success .delete {
+  display: block;
+}
+
+.hierarquias-classe {
+  display: table;
+  width: 100%;
+}
+
+.hierarquia-cell {
+  table-layout: table-cell;
+}
+
+.hierarchyWrapper {
+  width: 45% !important;
+  position: relative;
+  margin-top: 20px;
+  border: 3px dashed #545454;
+  border-radius: 25px;
+  padding-bottom: 30px;
+  margin-right: 30px;
+}
+
+.selectHierarchy {
+  position: relative;
+  margin-top: 10px;
+  left: 41%;
+  width: 50% !important;
+}
+
+.btn-adicionar {
+  position: relative;
+  margin-top: 20px;
+  left: 62%;
+  margin-bottom: 50px;
+}
+
+.btn-remove {
+  position: relative;
+  margin-top: 10px;
+  left: 55.5%;
+}
+
+.hierarquiaNameWrapper {
+  position: relative;
+  margin-top: 10px;
+  left: -4vw;
+  margin-bottom: 10px;
+}
+
+.treeElement {
+  position: relative;
+  margin-top: 3vh;
+  width: 50%;
+  left: 41%;
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.separate-buttons-left {
+  position: relative;
+  top: 18px;
+  margin-right: 10vw;
+}
+
+.separate-buttons-right {
+  position: relative;
+  margin-right: 10vw;
+  top: 18px;
+}
+
+.separate-buttons-preview {
+  position: relative;
+  margin-right: 30vw;
+  top: 18px;
+  float: left;
+}
+
+.breadcrumbs {
+  margin-top: 20px;
+}
+
+.upload-step {
+  font-size: 30px;
+}
+
+.input-hierarchy-name {
+  width: 105% !important;
+}
+
+.input-title {
+  width: 105%;
+}
+
+.modal-header h3 {
+  direction: ltr !important;
+}
+
+.footer-custom {
+  background-color: white;
+  width: 83%;
+  height: 80px;
+  box-shadow: 0px -4px 15px 0px rgba(125, 125, 125, 0.76);
+  margin-left: 250px !important;
+}
+
+.page-content-wrapper {
+  padding-bottom: 100px !important;
+}
+
+#preview-dataset {
+  display: none;
+  float: right;
+}
+
+.popover {
+  max-width: 800px !important;
+  margin-left: 50px !important;
+  z-index: 1050 !important;
+}
+
+.close-popover {
+  float: right;
+  margin-bottom: 20px;
+}
+
+#sidebar-wrapper {
+  background-color: #545454 !important;
+}
+
+.sidebar-nav > .sidebar-brand a {
+  color: white !important;
+  font-size: 1.5em;
+  float: left;
+}
+
+.sidebar-nav > .side-menu-item a {
+  color: white !important;
+  font-size: 1.3em;
+}
+
+.button-adicionar-dataset {
+  background-color: #fd5209 !important;
+  border-color: #fd5209 !important;
+  color: white !important;
+}
+
+button-adicionar-dataset:focus {
+  background-color: #fd5209 !important;
+  border-color: #fd5209 !important;
+  color: white !important;
+}
+
+.nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover {
+  color: #fff !important;
+  background-color: #545454 !important;
+}
+
+.btn-primary {
+  background-image: linear-gradient(to bottom, #fd5209, #fd5209) !important;
+  background-color: #fd5209 !important;
+  border-color: #fd5209 !important;
+}
+
+.btn-warning {
+  background-image: linear-gradient(to bottom, #669999, #669999) !important;
+  background-color: #669999 !important;
+  border-color: #669999 !important;
+}
+
+.btn-success {
+  background-image: linear-gradient(to bottom, #fd5209, #fd5209) !important;
+  background-color: #fd5209 !important;
+  border-color: #fd5209 !important;
+}
+
+.btn-danger {
+  background-image: linear-gradient(to bottom, #669999, #669999) !important;
+  background-color: #669999 !important;
+  border-color: #669999 !important;
+}
+
+.bootstrap-dialog.type-primary .modal-header {
+  background-color: #545454 !important;
+}
+
+.column-alias {
+  padding-top: 0px !important;
+}
+
+.help-buttons-content {
+  margin-right: 80px;
+}
+
+.treeExample {
+  position: relative;
+  width: 50%;
+  left: 25%;
+}
+
+.image-home {
+  display: flex;
+  justify-content: space-between;
+}
+
+.image-home img {
+  display: block;
+  width: auto;
+  height: 300px;
+}
+
+.home-integrate {
+  width: 50%;
+  font-size: 1.4em;
+  text-align: center;
+}
+
+.home-content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.home-help {
+  text-align: center;
+  font-size: 1.4em;
+  width: 30%;
+}
+
+.home-whoweare {
+  text-align: center;
+  font-size: 1.4em;
+}
+
+.search-box {
+  width: 30%;
+}
+
+.result-box {
+  width: 50%;
+}
+
+.searchElement {
+  display: flex;
+}
+
+.result-title {
+  font-size: 1.4em;
+}
+
+.result-description {
+  font-size: 1.2em;
+}
+
+.sidebar-brand{
+  font-size: 1em !important;
+}
