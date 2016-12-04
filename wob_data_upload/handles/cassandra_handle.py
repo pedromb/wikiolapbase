@@ -17,7 +17,7 @@ def getDevConnection():
 def closeConnection(session):
     session.cluster.shutdown()
     session.shutdown()
-    print("Conexão ao cluster cassandra {} fechada".format(session.cluster.metadata.cluster_name))
+    print("Conexao ao cluster cassandra {} fechada".format(session.cluster.metadata.cluster_name))
 
 def createTableFromDataFrame(table_name, alias_column_names, real_column_names, df):
     session = getDevConnection()
@@ -67,12 +67,12 @@ def processDfToCassandra(session, metadata):
     try:
         createTableFromDataFrame(table_name, alias_column_names, real_column_names,df)
     except:
-        raise CreateTableError("Error when creating table on Cassandra")
+        raise Exception("Error when creating table on Cassandra")
     try:
         insertIntoTableFromDataFrame(table_name, df, alias_column_names)
     except:
         dropTableFromCassandra(table_name)
-        raise InsertRowsError("Error when adding data to table on Cassandra")
+        raise Exception("Error when adding data to table on Cassandra")
 
 def getCassandraTypeFromDf(df, col):
     switcher = {
