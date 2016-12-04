@@ -1,12 +1,13 @@
 from pyspark_cassandra import CassandraSparkContext
 from pyspark import SparkContext, SparkConf
 from pyspark.sql import SQLContext
+import socket
 
 
 class SparkCassandra:
     appNameCassandra = "WikiOlapCassandra"
     appNameSQL = "WikiOlapSQL"
-    master = "spark://pedro-linux:7077"
+    master = "spark://"+socket.gethostname()+":7077"
 
     confCassandra = SparkConf() \
         .setAppName(appNameCassandra) \
