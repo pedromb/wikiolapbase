@@ -8,7 +8,7 @@ import numpy as np
 import time
 
 def getDevConnection():
-    cluster = Cluster()
+    cluster = Cluster[(os.environ['CASSANDRA_PORT_9042_TCP_ADDR']])
     metadata = cluster.metadata
     session = cluster.connect('cassandra_dev')
     print("Conectado ao cluster cassandra: " +metadata.cluster_name)
