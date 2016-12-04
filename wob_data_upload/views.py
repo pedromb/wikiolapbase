@@ -69,7 +69,7 @@ def upload_metadata_action(request):
         processDfToCassandra(request.session, metadata)
     except:
         Metadata.objects(tableId=metadata.tableId).delete()
-        return HttpResponse('Ocorreu um erro ao salvar os dados no repositório', status=500)
+        return HttpResponse('Ocorreu um erro ao salvar os dados no repositorio', status=500)
     data_cache_id = 'my_data_set_' + session_id
     cache.delete(data_cache_id)
     return HttpResponse('Ok',status=200)
