@@ -60,7 +60,7 @@ def upload_metadata_action(request):
     metadata = getMetadata(metadataJson)
     test = cache.get(session_id)
     if test is None:
-        return HttpResponse('Sessão expirada', status=440)
+        return HttpResponse('Sessao expirada', status=440)
     try:
         saveMetadata(metadata)
     except:
