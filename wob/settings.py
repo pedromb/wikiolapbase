@@ -1,7 +1,7 @@
 import os
 from cassandra import ConsistencyLevel
 from mongoengine import connect
-connect("mongodb_dev")
+connect("mongodb_dev", host=os.environ['MONGO_PORT_27017_TCP_ADDR'])
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -76,7 +76,7 @@ DATABASES = {
         'ENGINE': 'django_cassandra_engine',
         'NAME': 'cassandra_dev',
         'TEST_NAME': 'test_db',
-        'HOST': '127.0.0.1',
+        'HOST': os.environ['CASSANDRA_PORT_9042_TCP_ADDR'],
         'OPTIONS': {
                 'replication': {
                     'strategy_class': 'SimpleStrategy',
