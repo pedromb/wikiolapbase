@@ -4,3 +4,4 @@ pandas
 pymongo
 mongoengine
 cassandra-driver
+django-cassandra-engine
