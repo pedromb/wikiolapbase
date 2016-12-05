@@ -43,18 +43,18 @@ Se você seguir esses passos você conseguirá executar a aplicação, mas não 
 
 3. Feito isso, a aplicação não será iniciada automaticamente, você pode então acessar a linha de comando do container que possui a aplicação, e executá-la diretamente por lá. Para isso execute o comando:
 
-    docker exec -it id_do_seu_container bash
+        docker exec -it id_do_seu_container bash
+    
+    Para encontrar o id do seu container execute o comando:
 
-Para encontrar o id do seu container execute o comando:
-
-    docker ps
-
+        docker ps
+    
 4. Com isso você terá acesso ao bash e poderá executar a aplicação diretamente por la. Para isso execute os comandos:
 
-    $SPARK_HOME/sbin/start-master.sh
-    $SPARK_HOME/sbin/start-slave.sh "spark://$HOSTNAME:7077"
-    python3 wikiolapbase/manage.py sync_cassandra
-    python3 /wikiolapbase/manage.py runserver 0.0.0.0:8000 
+        $SPARK_HOME/sbin/start-master.sh
+        $SPARK_HOME/sbin/start-slave.sh "spark://$HOSTNAME:7077"
+        python3 wikiolapbase/manage.py sync_cassandra
+        python3 /wikiolapbase/manage.py runserver 0.0.0.0:8000 
 
 Os 2 primeiros comandos iniciam o cluster do Spark, o segundo sincroniza o servidor do Cassandra com a aplicação. O último comando inicia a aplicação, assim você consegue observar os outputs como se estivesse executando a aplicação localmente. Mais uma vez, você poderá acessar a aplicação em localhost:8000
 
