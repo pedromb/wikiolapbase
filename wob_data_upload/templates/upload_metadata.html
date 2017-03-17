@@ -32,20 +32,20 @@
             <ul class="sidebar-nav">
                 <li class="sidebar-brand">
                     <a href="#">
-                        <i class="fa fa-database" aria-hidden="true"></i> WikiOlap Base <sub style="font-size:0.5em;">Beta</sub>
+                        <i class="fa fa-database" aria-hidden="true"></i> WikiOlapBase <sub style="font-size:0.5em;">Beta</sub>
                     </a>
                 </li>
                 <li class="side-menu-item">
                     <a href="/"> <i class="fa fa-home" aria-hidden="true"></i> Home</a>
                 </li>
                 <li class="side-menu-item">
-                    <a href="/upload_file"> <i class="fa fa-cloud-upload" aria-hidden="true"></i> Enviar Dataset</a>
+                    <a href="/upload_file"> <i class="fa fa-cloud-upload" aria-hidden="true"></i> Submit Dataset</a>
                 </li>
                 <li class="side-menu-item">
-                    <a href="/search_metadata"> <i class="fa fa-search" aria-hidden="true"></i> Buscar Datasets</a>
+                    <a href="/search_metadata"> <i class="fa fa-search" aria-hidden="true"></i> Search Datasets</a>
                 </li>
                 <li class="side-menu-item">
-                    <a href="/wiki_olap_help"> <i class="fa fa-question-circle" aria-hidden="true"></i> Ajuda</a>
+                    <a href="/wiki_olap_help"> <i class="fa fa-question-circle" aria-hidden="true"></i> Help</a>
                 </li>
             </ul>
         </div>
@@ -55,21 +55,21 @@
                     <ul id="wizardId" class="nav nav-pills nav-justified thumbnail setup-panel">
                         <li id="step1Breadcrumb" class="disabled">
                             <a href="#step-1">
-                                <h4 class="list-group-item-heading">1º Passo</h4>
+                                <h4 class="list-group-item-heading">1º Step</h4>
                                 <i class="fa fa-3x fa-cloud-upload" aria-hidden="true"></i>
                                 <p class="list-group-item-text">Upload</p>
                             </a>
                         </li>
                         <li id="step2Breadcrumb" class="active">
                             <a href="#step-2">
-                                <h4 class="list-group-item-heading">2º Passo</h4>
+                                <h4 class="list-group-item-heading">2º Step</h4>
                                 <i class="fa fa-3x fa-edit" aria-hidden="true"></i>
-                                <p class="list-group-item-text">Descrição</p>
+                                <p class="list-group-item-text">Description</p>
                             </a>
                         </li>
                         <li id="step3Breadcrumb" class="disabled">
                             <a href="#step-3">
-                                <h4 class="list-group-item-heading">3º Passo</h4>
+                                <h4 class="list-group-item-heading">3º Step</h4>
                                 <i class="fa fa-3x fa-tags" aria-hidden="true"></i>
                                 <p class="list-group-item-text">Tags</p>
                             </a>
@@ -77,9 +77,9 @@
 
                         <li id="step4Breadcrumb" class="disabled">
                             <a href="#step-4">
-                                <h4 class="list-group-item-heading">4º Passo</h4>
+                                <h4 class="list-group-item-heading">4º Step</h4>
                                 <i class="fa fa-3x fa-sitemap" aria-hidden="true"></i>
-                                <p class="list-group-item-text">Hierarquias</p>
+                                <p class="list-group-item-text">Hierarchies</p>
                             </a>
                         </li>
 
@@ -94,28 +94,28 @@
                         <div id="metadataFormId" class="form-horizontal">
                             <fieldset>
                                 <!-- Form Name -->
-                                <legend>Informações sobre o dataset</legend>
+                                <legend>Dataset details</legend>
 
                                 <!-- Text input-->
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label" for="title">Título</label>
+                                    <label class="col-md-4 control-label" for="title">Title</label>
                                     <div class="col-md-4">
                                         <input id="title" name="title" type="text" placeholder="" class="form-control input-title" required>
                                     </div>
                                 </div>
                                 <!-- Text input-->
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label" for="description">Descrição</label>
+                                    <label class="col-md-4 control-label" for="description">Description</label>
                                     <div class="col-md-4">
                                         <textarea id="descriptionId" name="description" form_id="metadataFormId" rows="6" cols="44" required> </textarea>
                                     </div>
                                 </div>
                                 <!-- Text input-->
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label" for="source">Fonte</label>
+                                    <label class="col-md-4 control-label" for="source">Source</label>
                                     <div class="col-md-4">
                                         <input id="source" name="source" type="text" placeholder="" class="form-control input-title" required>
-                                        <span class="help-block">Utilze preferencialmente uma URL. Ex.: dados.gov.br</span>
+                                        <span class="help-block">Preferably use a URL.</span>
                                     </div>
                                 </div>
 
@@ -140,20 +140,19 @@
                         <div id="metadataFormId" class="form-horizontal">
                             <fieldset>
                                 <legend>Tags</legend>
-                                <span class="help-block">Você pode adicionar tags para as colunas de seu dataset! <br>
-                                    Isso ajuda na indexação de seu dataset em nosso banco de dados. <br>
-                                    Aqui você também pode editar os nomes das colunas se desejar, basta clicar sobre eles. <br>
-                                    Utilizar nomes amigáveis facilita a busca do dataset em nosso repositório. </span>
+                                <span class="help-block">You can add tags to the columns of your dataset! <br>
+                                    This helps indexing your dataset in our database. <br>
+                                    Here you can also edit the column names if you wish, just click on them. <br>
+                                    Using friendly names makes it easy to search the dataset in our repository. </span>
                                 <div id="columnsTags">
                                     {% for column in columnNames %}
                                     <div id="columnsId" class="form-group">
                                         <label class="col-md-4 control-label" for="{{column}}"> <a class="column-alias" id="{{column}}Editable"> {{column}} </a> </label>
                                         <select id="{{column}}Id" style="width:30%;" class="select2" multiple>
-                                            <option value="Ano">Ano</option>
-                                            <option value="Bairro">Bairro</option>
-                                            <option value="Cidade">Cidade</option>
-                                            <option value="Estado">Estado</option>
-                                            <option value="Dia">Dia</option>
+                                            <option value="Year">Year</option>
+                                            <option value="City">City</option>
+                                            <option value="State">State</option>
+                                            <option value="Day">Day</option>
                                     </select>
                                     </div>
                                     {% endfor %}
@@ -173,13 +172,13 @@
                     <div class="text-left">
                         <div id="metadataFormId" class="form-horizontal">
                             <fieldset>
-                                <legend>Hierarquia de Dados</legend>
-                                <span class="help-block"> Caso existam dados hierárquicos em seu dataset você pode definir essa(s) hierarquias aqui. <br>
-                                    Se você não sabe o que são hierarquias de dados, <a href="#">clique aqui</a> para saber mais.</span>
+                                <legend>Data Hierarchy</legend>
+                                <span class="help-block"> If there are hierarchical data in your dataset you can define these hierarchies here. <br>
+                                    If you do not know what data hierarchies are, <a href="#">click here</a> to know more.</span>
 
                                 <span class="btn btn-success" id="addHierarchy">
                                         <i class="glyphicon glyphicon-plus"></i>
-                                        <span>Adicionar hierarquia</span>
+                                        <span>Add hierarchy</span>
                                 </span>
 
                                 <div class="hierarquias-classe" id="hierarquias">
@@ -221,19 +220,19 @@
                 <div class="form-group separate-buttons-preview">
                     <label class="col-md-4 control-label" for="previewDataset"></label>
                     <div class="col-md-4">
-                        <a data-toggle="popover" data-placement="top" id="showPreviewDataset" class="btn btn-lg btn-default"> Preview do Dataset </i></a>
+                        <a data-toggle="popover" data-placement="top" id="showPreviewDataset" class="btn btn-lg btn-default"> Dataset Preview</i></a>
                     </div>
                 </div>
                 <div class="form-group separate-buttons-right">
                     <label class="col-md-4 control-label" for="goBackwards"></label>
                     <div class="col-md-4">
-                        <button id="goBackwardsId" class="btn btn-lg btn-default"><i class="fa  fa-chevron-left" ></i> Voltar </button>
+                        <button id="goBackwardsId" class="btn btn-lg btn-default"><i class="fa  fa-chevron-left" ></i> Go Back </button>
                     </div>
                 </div>
                 <div class="form-group separate-buttons-left">
                     <label class="col-md-4 control-label" for="goForward"></label>
                     <div class="col-md-4">
-                        <button id="goForwardId" class="btn btn-lg btn-primary">Próximo <i class="fa  fa-chevron-right" ></i></button>
+                        <button id="goForwardId" class="btn btn-lg btn-primary">Next <i class="fa  fa-chevron-right" ></i></button>
                     </div>
                 </div>
             </div>
