@@ -46,7 +46,7 @@ def insertIntoTableFromDataFrame(table_name, df, alias_column_names):
     alias_column_names.append('id')
     my_tuples = [tuple(x) for x in df.values]
     rdd = SparkCassandra.sc.parallelize([{ 
-            alias_column_names[index].lower():value 
+            alias_column_names[index].lower().strip().replace(' ','_'):value 
             if not isinstance(value, np.float64) else float(value) \
             for index,value in enumerate(tuple_entry)
         } for tuple_entry in my_tuples
